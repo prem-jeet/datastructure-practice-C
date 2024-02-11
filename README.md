@@ -9,4 +9,3 @@
 - [ ] Infix to post fix using stack
 - [ ] Prefix evaluation
 - [ ] Postfix evaluation
- 
