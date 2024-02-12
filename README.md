@@ -1,7 +1,7 @@
 # Practicing Data structure in C-Languge
 
 ## Array
-- [ ] stack using array
+- [x] stack using array
 - [ ] Two Stack using array
 - [ ] Queue using arrray ( circular )
 - [ ] Qeue using  stack
