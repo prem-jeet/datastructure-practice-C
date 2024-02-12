@@ -24,6 +24,7 @@ int main(){
 
     int option, terminate=0, item;
     while(true){
+        printf("\n \n");
        if(terminate) break;
 
         printStack(s, MAX_SIZE);
@@ -52,8 +53,6 @@ int main(){
                 terminate = 1;
                 break;
         }
-
-    
     }
     return 1;
 }
@@ -67,6 +66,7 @@ bool isFull(Stack *s){
 void push(Stack *s, int item){
     if(isFull(s)){
         printf("Overflow");
+        getchar();
         return;
     }
     s->top++;
