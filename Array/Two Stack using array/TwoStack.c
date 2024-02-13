@@ -15,7 +15,8 @@ int displayOptions();
 void pushIn1(Stack *,int);
 void pushIn2(Stack *,int);
 void _PSUDO_PUSH(Stack *, int,int);
-
+int popFrom1(Stack *);
+int popFrom2(Stack *);
 
 int main(){
     Stack *s = (Stack *)calloc(1,sizeof(Stack));
@@ -42,6 +43,20 @@ int main(){
             scanf("%d", &item);
             pushIn2(s,item);
             break;
+            case 3:
+            item = popFrom1(s);
+            if(item > -1){
+                printf("Popped %d from Left stack\n", item);
+                
+            }
+            break;
+            case 4:
+            item = popFrom2(s);
+            if(item > -1){
+                printf("Popped %d from Right stack\n", item);
+                
+            }
+            break;
             case 5:
             terminate = 1;
             break;
@@ -50,6 +65,25 @@ int main(){
     return 1;
 }
 
+
+int popFrom1(Stack *s){
+    if(s->top1==-1){
+        printf("Underflow \n");
+        return -1;
+    }
+    int item = s->stack[s->top1];
+    s->top1--;
+    return item;
+}
+int popFrom2(Stack *s){
+    if(s->top2 == MAX_SIZE){
+        printf("Underflow \n");
+        return -1;
+    }
+    int item = s->stack[s->top2];
+    s->top2++;
+    return item;
+}
 
 void _PSUDO_PUSH(Stack *s, int item, int stackId){
     if(isFull(s)){
