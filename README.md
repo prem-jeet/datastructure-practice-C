@@ -2,7 +2,7 @@
 
 ## Array
 - [x] stack using array
-- [ ] Two Stack using array
+- [x] Two Stack using array
 - [ ] Queue using arrray ( circular )
 - [ ] Qeue using  stack
 - [ ] Stack using queue
