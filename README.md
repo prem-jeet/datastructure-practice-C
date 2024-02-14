@@ -4,7 +4,7 @@
 - [x] stack using array
 - [x] Two Stack using array
 - [x] Queue using arrray ( circular )
-- [ ] Qeue using  stack
+- [ ] Queue using  stack
 - [ ] Stack using queue
 - [ ] Infix to post fix using stack
 - [ ] Prefix evaluation
