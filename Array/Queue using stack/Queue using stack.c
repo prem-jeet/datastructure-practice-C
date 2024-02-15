@@ -1,20 +1,22 @@
-#include<stdlib.h>
-#include<stdio.h>
-#include<stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
 
 #define MAX_SIZE 10
 
-typedef struct {
+typedef struct
+{
     int *stack;
     int top;
     int size;
-}Stack;
+} Stack;
 
-typedef struct{
+typedef struct
+{
     Stack *s1;
     Stack *s2;
     int size;
-}Queue;
+} Queue;
 
 bool isStackEmpty(Stack *);
 bool isStackFull(Stack *);
@@ -22,18 +24,19 @@ int pop(Stack *);
 int push(Stack *, int);
 int printOptions();
 void printStack(Stack *);
-Queue* intitalizeQueue(){
-Queue *q = (Queue *)malloc(1*sizeof(Queue));
-    q->s1 = malloc(1*sizeof(Stack)); 
-    q->s2 = malloc(1*sizeof(Stack)); 
+Queue *intitalizeQueue()
+{
+    Queue *q = (Queue *)malloc(1 * sizeof(Queue));
+    q->s1 = malloc(1 * sizeof(Stack));
+    q->s2 = malloc(1 * sizeof(Stack));
 
-    q->s1->size = (MAX_SIZE+1)/2;
-    q->s2->size = (MAX_SIZE)/2;
+    q->s1->size = (MAX_SIZE + 1) / 2;
+    q->s2->size = (MAX_SIZE) / 2;
     q->s1->stack = malloc((q->s1->size) * sizeof(int));
     q->s2->stack = malloc((q->s2->size) * sizeof(int));
     q->s1->top = -1;
     q->s2->top = -1;
-    
+
     q->size = MAX_SIZE;
 
     return q;
@@ -42,69 +45,112 @@ Queue *q = (Queue *)malloc(1*sizeof(Queue));
 bool isQueueEmpty(Queue *);
 bool isQueueFull(Queue *);
 int enqueue(Queue *, int);
-
-int main(){
+int dequeue(Queue *);
+int main()
+{
     Queue *q = intitalizeQueue();
-    
-    int option, terminate=0, item;
-    while(true){
-       if(terminate) break;
+
+    int option, terminate = 0, item;
+    while (true)
+    {
+        if (terminate)
+            break;
 
         printStack(q->s1);
         printStack(q->s2);
-        int option = printOptions();
-        switch(option){
-            default: 
-                printf("\nInvalid option \n");
-                break;
-            case 1:
-                printf("\nEnter the item : ");
-                scanf("%d", &item);
-                enqueue(q, item);
-                break;
-            case 2:
-                break;
-            case 3:
-                terminate = 1;
-                break;
+        int option = printOptions(), item;
+        switch (option)
+        {
+        default:
+            printf("\nInvalid option \n");
+            break;
+        case 1:
+            printf("\nEnter the item : ");
+            scanf("%d", &item);
+            if (enqueue(q, item) == -1)
+            {
+                printf("\nQueue is full\n");
+            }
+            break;
+        case 2:
+            item = dequeue(q);
+            if (item == -1)
+            {
+                printf("\nQueue isempty");
+            }
+            else
+            {
+                printf("\nRemoved %d from queue", item);
+            }
+            break;
+        case 3:
+            terminate = 1;
+            break;
         }
     }
     return 1;
 }
 
-
-int enqueue(Queue *q, int item){
-    if(isQueueFull(q)){
-        printf("\nQueue is full\n");
+int enqueue(Queue *q, int item)
+{
+    if (isQueueFull(q))
+    {
         return -1;
     }
-    if(isStackFull(q->s1) && isStackEmpty(q->s2)){
-        while(!isStackEmpty(q->s1)){
+    if (isStackFull(q->s1) && isStackEmpty(q->s2))
+    {
+        while (!isStackEmpty(q->s1))
+        {
             int item = pop(q->s1);
-            if(item > -1)
-            push(q->s2,item);
+            if (item > -1)
+                push(q->s2, item);
         }
     }
     push(q->s1, item);
     return 1;
 }
 
+int dequeue(Queue *q)
+{
+    if (isQueueEmpty(q))
+    {
+        return -1;
+    }
 
-bool isQueueEmpty(Queue *q){
+    if (isStackEmpty(q->s2) && !isStackEmpty(q->s1))
+    {
+        while (!isStackEmpty(q->s1))
+        {
+            int item = pop(q->s1);
+            if (item > -1)
+                push(q->s2, item);
+        }
+        
+    }
+    return pop(q->s2);
+}
+
+bool isQueueEmpty(Queue *q)
+{
     return isStackEmpty(q->s1) && isStackEmpty(q->s2);
 }
-bool isQueueFull(Queue *q){
+bool isQueueFull(Queue *q)
+{
     return isStackFull(q->s1) && !isStackEmpty(q->s2);
 }
 
-bool isStackEmpty(Stack *s){
-    return s->top==-1;
+bool isStackEmpty(Stack *s)
+{
+    return s->top == -1;
 }
-bool isStackFull(Stack *s){
-    return s->top == s->size-1;
+bool isStackFull(Stack *s)
+{
+    return s->top == s->size - 1;
 }
-int push(Stack *s, int item){
-    if(isStackFull(s)){
+int push(Stack *s, int item)
+{
+    if (isStackFull(s))
+    {
         return -1;
     }
     s->top++;
@@ -112,8 +158,10 @@ int push(Stack *s, int item){
     return 1;
 }
 
-int pop(Stack *s){
-    if(isStackEmpty(s)){
+int pop(Stack *s)
+{
+    if (isStackEmpty(s))
+    {
         return -1;
     }
     int item = s->stack[s->top];
@@ -121,9 +169,8 @@ int pop(Stack *s){
     return item;
 }
 
-
-
-int printOptions() {
+int printOptions()
+{
     printf("*********************\n");
     printf("*   Stack Operations: *\n");
     printf("*   1. Enqueue        *\n");
@@ -136,10 +183,13 @@ int printOptions() {
     return option;
 }
 
-void printStack(Stack *s){
+void printStack(Stack *s)
+{
     printf("\n");
-    for(int i = 0; i< s->size;i++){
-        if(s->top>=i){
+    for (int i = 0; i < s->size; i++)
+    {
+        if (s->top >= i)
+        {
             printf("%d |", s->stack[i]);
             continue;
         }
