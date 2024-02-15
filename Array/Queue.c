@@ -1,14 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-typedef struct
-{
-    int *queue;
-    int front;
-    int rare;
-    int size;
-} Queue;
+#include "Queue.h"
 
 
 Queue *createQueue(int size)

@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "../Queue.h"
 
+
 typedef struct
 {
     Queue *q1;
@@ -15,6 +16,7 @@ bool isStackFull(Stack *s);
 void printStack(Stack *);
 Stack *createStack(int);
 int push(Stack *, int);
+int pop(Stack *);
 
 int main()
 {
@@ -43,6 +45,16 @@ int main()
                 printf("\nStack is Full\n");
             }
             break;
+            case 2:
+            item = pop(s);
+            if(item == -1){
+                printf("\n Stack is empty\n");
+                break;
+            }
+            printf("Popped %d from stack\n", item);
+            break;
+            case 3:
+            terminate = 1;
         }
     }
     return 1;
@@ -56,6 +68,21 @@ int push(Stack *s, int item)
     }
     enqueue(s->q1, item);
     return item;
+}
+
+int pop(Stack *s){
+    if(isStackEmpty(s)){
+        return -1;
+    }
+    while(s->q1->front != s->q1->rare){
+        int item = dequeue(s->q1);
+        enqueue(s->q2, item);
+    }
+    int returnValue = dequeue(s->q1);
+    Queue *temp = s->q1;
+    s->q1=s->q2;
+    s->q2=temp;
+    return returnValue; 
 }
 
 bool isStackEmpty(Stack *s)
@@ -80,8 +107,7 @@ void printStack(Stack *s)
 {
     printQueue(s->q1);
     printf("\n");
-    printQueue(s->q2);
-    printf("\n");
+    
 }
 
 int printOptions()

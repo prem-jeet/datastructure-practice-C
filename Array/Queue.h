@@ -3,7 +3,13 @@
 
 #include <stdbool.h>
 
-typedef struct Queue Queue; // Forward declaration
+typedef struct
+{
+    int *queue;
+    int front;
+    int rare;
+    int size;
+} Queue;
 
 Queue* createQueue(int size);
 bool isQueueFull(Queue *q);
