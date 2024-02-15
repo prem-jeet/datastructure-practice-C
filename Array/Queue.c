@@ -36,6 +36,7 @@ int enqueue(Queue *q, int item)
     {
         return -1;
     }
+    if(q->front ==-1) q->front++;
     q->rare++;
     q->rare %= q->size;
     q->queue[q->rare] = item;
