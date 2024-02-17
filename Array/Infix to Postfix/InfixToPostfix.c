@@ -6,7 +6,8 @@
 
 bool shouldPop(char, char);
 int findPrecedence(char);
-
+char* strReverse(char *);
+char* infixToPostfix(char *);
 int main()
 {
     // To take user input as string
@@ -17,6 +18,49 @@ int main()
     getline(&infixExpression, &size, stdin);
     infixExpression[strlen(infixExpression) - 1] = '\0';
 
+    char *postfixExpression = infixToPostfix(infixExpression);
+
+    printf("Postfix expression is : %s\n", postfixExpression);
+
+    return 0;
+}
+
+bool shouldPop(char top, char curr)
+{
+    if (top == '?' || top == '(')
+        return false;
+    int precedenceTop = findPrecedence(top);
+    int precedenceCurr = findPrecedence(curr);
+    return precedenceTop < precedenceCurr ? false : precedenceTop > precedenceCurr ? true
+                                                                                   : curr != '^';
+}
+
+int findPrecedence(char c)
+{
+    if (c == '+' || c == '-')
+        return 1;
+    if (c == '/' || c == '*')
+        return 2;
+    if (c == '^')
+        return 3;
+}
+
+char* strReverse(char* c){
+    int len = strlen(c);
+    
+    char *revC = calloc(len, sizeof(char));
+    int cIndex = len-2, revCIndex=0;
+    
+    while(cIndex>=0){
+        char curr =  c[cIndex--];
+        if(curr == '(') curr=')';
+        else if(curr == ')') curr='(';
+        revC[revCIndex++] = curr;    
+    }
+    return revC;
+}
+
+char *infixToPostfix(char *infixExpression){
     Stack *operatorStack = createStack(strlen(infixExpression));
     char *t = infixExpression;
     char *postfix = calloc(strlen(infixExpression) + 1, sizeof(char));
@@ -68,28 +112,5 @@ int main()
     {
         postfix[postfixIndex++] = pop(operatorStack);
     }
-
-    printf("Postfix expression is : %s\n", postfix);
-
-    return 0;
-}
-
-bool shouldPop(char top, char curr)
-{
-    if (top == '?' || top == '(')
-        return false;
-    int precedenceTop = findPrecedence(top);
-    int precedenceCurr = findPrecedence(curr);
-    return precedenceTop < precedenceCurr ? false : precedenceTop > precedenceCurr ? true
-                                                                                   : curr != '^';
-}
-
-int findPrecedence(char c)
-{
-    if (c == '+' || c == '-')
-        return 1;
-    if (c == '/' || c == '*')
-        return 2;
-    if (c == '^')
-        return 3;
+    return postfix;
 }
