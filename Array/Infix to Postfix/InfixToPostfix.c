@@ -6,28 +6,25 @@
 
 bool shouldPop(char, char);
 int findPrecedence(char);
+
 int main()
 {
     // To take user input as string
-    char *str = NULL; // Pointer to char, initialized to NULL
-    size_t size = 0;  // Initial size is 0, getline will allocate memory as needed
+    char *infixExpression = NULL; // Pointer to char, initialized to NULL
+    size_t size = 0;              // Initial size is 0, getline will allocate memory as needed
     printf("Infix to Postfix convertor, use alphabets, + - * / ^ and only this brackets ()\n");
     printf("Enter infix experssion : ");
-    getline(&str, &size, stdin);
+    getline(&infixExpression, &size, stdin);
+    infixExpression[strlen(infixExpression) - 1] = '\0';
 
-    Stack *operatorStack = createStack(strlen(str));
-    char *t = str;
-    char postfix[strlen(str)];
+    Stack *operatorStack = createStack(strlen(infixExpression));
+    char *t = infixExpression;
+    char *postfix = calloc(strlen(infixExpression) + 1, sizeof(char));
     int postfixIndex = 0;
 
-    while (*t || !isStackEmpty(operatorStack))
-    {   
-        // printStack(operatorStack);
-        // for(int i = 0;i<strlen(str);i++){
-        //     printf("%c",postfix[i]);
-        // }
-        // printf("\n");
-        
+    while (*t)
+    {
+
         char curr = *t;
         bool isOperator = curr == '+' || curr == '-' || curr == '/' || curr == '*' || curr == '^' || curr == '(' || curr == ')';
 
@@ -49,6 +46,7 @@ int main()
         {
             while (true)
             {
+
                 char temp = pop(operatorStack);
                 if (temp == '(')
                     break;
@@ -63,19 +61,27 @@ int main()
             char temp = pop(operatorStack);
             postfix[postfixIndex++] = temp;
         }
-
         push(operatorStack, curr);
         t++;
     }
+    while (!isStackEmpty(operatorStack))
+    {
+        postfix[postfixIndex++] = pop(operatorStack);
+    }
+
+    printf("Postfix expression is : %s\n", postfix);
 
     return 0;
 }
 
 bool shouldPop(char top, char curr)
-{   if(top == '?') return false;
+{
+    if (top == '?' || top == '(')
+        return false;
     int precedenceTop = findPrecedence(top);
     int precedenceCurr = findPrecedence(curr);
-    return precedenceTop < precedenceCurr ? false : precedenceTop > precedenceCurr ? true : curr != '^';
+    return precedenceTop < precedenceCurr ? false : precedenceTop > precedenceCurr ? true
+                                                                                   : curr != '^';
 }
 
 int findPrecedence(char c)
