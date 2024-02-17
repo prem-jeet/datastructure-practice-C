@@ -6,6 +6,6 @@
 - [x] Queue using arrray ( circular )
 - [x] Queue using  stack
 - [x] Stack using two queue
-- [ ] Infix to post fix using stack
+- [x] Infix to post fix using stack
 - [ ] Prefix evaluation
 - [ ] Postfix evaluation
