@@ -7,6 +7,6 @@
 - [x] Queue using  stack
 - [x] Stack using two queue
 - [x] Infix to Post fix using stack
-- [x] Infixx to Prefix using Stack 
+- [x] Infix to Prefix using Stack 
 - [ ] Prefix evaluation
 - [ ] Postfix evaluation
