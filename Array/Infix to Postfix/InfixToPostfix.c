@@ -6,8 +6,8 @@
 
 bool shouldPop(char, char);
 int findPrecedence(char);
-char* strReverse(char *);
-char* infixToPostfix(char *);
+char *strReverse(char *);
+char *infixToPostfix(char *);
 int main()
 {
     // To take user input as string
@@ -19,8 +19,9 @@ int main()
     infixExpression[strlen(infixExpression) - 1] = '\0';
 
     char *postfixExpression = infixToPostfix(infixExpression);
-
+    char *prefixExpression = strReverse(infixToPostfix(strReverse(infixExpression)));
     printf("Postfix expression is : %s\n", postfixExpression);
+    printf("Prefix expression is : %s\n", prefixExpression);
 
     return 0;
 }
@@ -45,22 +46,27 @@ int findPrecedence(char c)
         return 3;
 }
 
-char* strReverse(char* c){
+char *strReverse(char *c)
+{
     int len = strlen(c);
-    
-    char *revC = calloc(len, sizeof(char));
-    int cIndex = len-2, revCIndex=0;
-    
-    while(cIndex>=0){
-        char curr =  c[cIndex--];
-        if(curr == '(') curr=')';
-        else if(curr == ')') curr='(';
-        revC[revCIndex++] = curr;    
+
+    char *revC = calloc(len + 1, sizeof(char));
+    int cIndex = len - 1, revCIndex = 0;
+
+    while (cIndex >= 0)
+    {
+        char curr = c[cIndex--];
+        if (curr == '(')
+            curr = ')';
+        else if (curr == ')')
+            curr = '(';
+        revC[revCIndex++] = curr;
     }
     return revC;
 }
 
-char *infixToPostfix(char *infixExpression){
+char *infixToPostfix(char *infixExpression)
+{
     Stack *operatorStack = createStack(strlen(infixExpression));
     char *t = infixExpression;
     char *postfix = calloc(strlen(infixExpression) + 1, sizeof(char));
