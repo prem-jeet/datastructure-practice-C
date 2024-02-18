@@ -1,4 +1,4 @@
-#include "../../GlobalLibrary/Stack.h"
+#include "../../GlobalLibrary/FloatStack.h"
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -6,9 +6,10 @@
 #include <string.h>
 
 bool isOperator(char);
-int performOperation(int, int, char);
-int evaluatePostfix(char *);
-int main() {
+float performOperation(float, float, char);
+float evaluatePostfix(char *);
+int main()
+{
   // Expression input code - begin
   printf("Enter Postfix Expression : ");
   char *postfixExpression = NULL;
@@ -18,25 +19,28 @@ int main() {
   postfixExpression[expressionLen - 1] = '\0';
   // Expression input code - end
 
-  printf("\nExpression output : %d\n", evaluatePostfix(postfixExpression));
+  printf("\nExpression output : %0.2f\n", evaluatePostfix(postfixExpression));
   return 1;
 }
 
-int evaluatePostfix(char *postfixExpression) {
+float evaluatePostfix(char *postfixExpression)
+{
   char *t = postfixExpression;
   printf("\ninput : %s", postfixExpression);
-  Stack *operandStack = createStack(strlen(postfixExpression));
-  while (*t) {
+  FloatStack *operandStack = createFloatStack(strlen(postfixExpression));
+  while (*t)
+  {
     printf("\nOperand stack");
     printStack(operandStack);
-    if (!isOperator(*t)) {
+    if (!isOperator(*t))
+    {
       push(operandStack, *t - '0');
       t++;
       continue;
     }
     printf("Operator : %c\n", *t);
-    int secondOperand = pop(operandStack);
-    int firstOperand = pop(operandStack);
+    float secondOperand = pop(operandStack);
+    float firstOperand = pop(operandStack);
     push(operandStack, performOperation(firstOperand, secondOperand, *t));
     t++;
   }
@@ -45,11 +49,14 @@ int evaluatePostfix(char *postfixExpression) {
   return pop(operandStack);
 }
 
-bool isOperator(char c) {
+bool isOperator(char c)
+{
   return c == '+' || c == '-' || c == '/' || c == '*' || c == '^';
 }
-int performOperation(int firstOperand, int secondOperand, char operator) {
-  switch (operator) {
+float performOperation(float firstOperand, float secondOperand, char operator)
+{
+  switch (operator)
+  {
   case '+':
     return firstOperand + secondOperand;
   case '-':
