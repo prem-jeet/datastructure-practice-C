@@ -12,4 +12,4 @@ bool isStackEmpty(FloatStack *);
 float peek(FloatStack *);
 float push(FloatStack *, float);
 float pop(FloatStack *);
-
+void printStack(FloatStack *);

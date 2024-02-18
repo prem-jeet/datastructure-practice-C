@@ -35,8 +35,22 @@ float push(FloatStack *s, float item)
 
 FloatStack *createFloatStack(int size)
 {
-    FloatStack *f = calloc(size, sizeof(float));
+    FloatStack *f = calloc(1, sizeof(FloatStack));
+    f->stack = calloc(size, sizeof(float));
     f->top = -1;
     f->size = size;
     return f;
+}
+
+void printStack(FloatStack *s)
+{
+    printf("\n");
+    for (int i = 0; i < s->size; i++)
+    {
+        if (i <= s->top)
+            printf("%0.2f |", s->stack[i]);
+        else
+            printf(" |");
+    }
+    printf("\n");
 }
