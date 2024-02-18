@@ -33,7 +33,7 @@ float push(FloatStack *s, float item)
     return s->stack[++s->top] = item;
 }
 
-FloatStack *clerFloatStack(int size)
+FloatStack *createFloatStack(int size)
 {
     FloatStack *f = calloc(size, sizeof(float));
     f->top = -1;

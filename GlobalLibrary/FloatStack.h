@@ -6,7 +6,7 @@ typedef struct {
     int top;
 }FloatStack;
 
-FloatStack* clerFloatStack(int);
+FloatStack* createFloatStack(int);
 bool isStackFull(FloatStack *);
 bool isStackEmpty(FloatStack *);
 float peek(FloatStack *);
