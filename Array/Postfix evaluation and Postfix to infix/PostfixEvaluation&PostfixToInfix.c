@@ -1,4 +1,4 @@
-#include "../../GlobalLibrary/FloatStack.h"
+#include "../../GlobalLibrary/GenericStack.h"
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -8,6 +8,9 @@
 bool isOperator(char);
 float performOperation(float, float, char);
 float evaluatePostfix(char *);
+void printStack(Stack *);
+char * postfixToInfix(char *);
+
 int main()
 {
   // Expression input code - begin
@@ -27,26 +30,30 @@ float evaluatePostfix(char *postfixExpression)
 {
   char *t = postfixExpression;
   printf("\ninput : %s", postfixExpression);
-  FloatStack *operandStack = createFloatStack(strlen(postfixExpression));
+  Stack *operandStack = createStack(strlen(postfixExpression));
   while (*t)
   {
     printf("\nOperand stack");
     printStack(operandStack);
     if (!isOperator(*t))
     {
-      push(operandStack, *t - '0');
+      float *f = malloc(sizeof(float));
+      *f = *t - '0';
+      push(operandStack, f);
       t++;
       continue;
     }
     printf("Operator : %c\n", *t);
-    float secondOperand = pop(operandStack);
-    float firstOperand = pop(operandStack);
-    push(operandStack, performOperation(firstOperand, secondOperand, *t));
+    float *secondOperand = pop(operandStack);
+    float *firstOperand = pop(operandStack);
+    float *result = malloc(sizeof(float));
+    *result = performOperation(*firstOperand, *secondOperand, *t);
+    push(operandStack, result);
     t++;
   }
   printf("\nOperand stack");
   printStack(operandStack);
-  return pop(operandStack);
+  return *(float *)pop(operandStack);
 }
 
 bool isOperator(char c)
@@ -68,4 +75,21 @@ float performOperation(float firstOperand, float secondOperand, char operator)
   case '^':
     return pow(firstOperand, secondOperand);
   }
+}
+
+void printStack(Stack *s)
+{
+  printf("\n");
+  for (int i = 0; i < s->size; i++)
+  {
+    if (i <= s->top)
+      printf("%0.2f |", *(float *)(s->stack[i]));
+    else
+      printf(" |");
+  }
+  printf("\n");
+}
+
+char * postfixToInfix(char *postfixExpression){
+
 }
