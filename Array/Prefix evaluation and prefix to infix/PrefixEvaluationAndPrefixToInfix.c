@@ -9,6 +9,9 @@ bool isOperator(char);
 float performOperation(float, float, char);
 float evaluatePrefix(char *);
 void printFloatStack(Stack *);
+char *prefixToInfix(char *);
+char *combineOperands(char *, char *, char *);
+
 int main()
 {
     char *prefixExpression = NULL;
@@ -21,6 +24,7 @@ int main()
     Stack *operandStack = createStack(len);
     float result = evaluatePrefix(prefixExpression);
     printf("\nThe Prefix Expression evaluates to : %0.2f", result);
+    printf("\nEquivalent Infix expression of %s is : %s", prefixExpression, prefixToInfix(prefixExpression));
     return 1;
 }
 
@@ -87,4 +91,46 @@ void printFloatStack(Stack *s)
         printf("  | ");
     }
     printf("\n");
+}
+
+char *prefixToInfix(char *prefixExpression)
+{
+
+    Stack *s = createStack(strlen(prefixExpression));
+    int index = strlen(prefixExpression);
+    while (--index > -1)
+    {
+        char curr = prefixExpression[index];
+        char *pushItem = NULL;
+        if (isOperator(curr))
+        {
+            printf("1");
+            char *firstOperand = pop(s);
+            char *secondOperand = pop(s);
+            char *operator= calloc(2, sizeof(char));
+            operator[0] = curr;
+            pushItem = combineOperands(firstOperand, secondOperand, operator);
+        }
+        else
+        {
+            printf("2");
+            pushItem = calloc(2, sizeof(char));
+            pushItem[0] = curr;
+        }
+        printf("3");
+        push(s, pushItem);
+    }
+    printf("4");
+    return pop(s);
+}
+
+char *combineOperands(char *firstOperand, char *secondOperand, char *operator)
+{
+    char *r = calloc(strlen(firstOperand) + strlen(secondOperand) + 4, sizeof(char));
+    strcat(r, "(");
+    strcat(r, firstOperand);
+    strcat(r, operator);
+    strcat(r, secondOperand);
+    strcat(r, ")");
+    return r;
 }
