@@ -9,7 +9,8 @@ bool isOperator(char);
 float performOperation(float, float, char);
 float evaluatePostfix(char *);
 void printStack(Stack *);
-char * postfixToInfix(char *);
+char *postfixToInfix(char *);
+char *combineOperands(char *, char *, char *);
 
 int main()
 {
@@ -23,6 +24,7 @@ int main()
   // Expression input code - end
 
   printf("\nExpression output : %0.2f\n", evaluatePostfix(postfixExpression));
+  printf("\nInfix expression: %s", postfixToInfix(postfixExpression));
   return 1;
 }
 
@@ -90,6 +92,39 @@ void printStack(Stack *s)
   printf("\n");
 }
 
-char * postfixToInfix(char *postfixExpression){
+char *postfixToInfix(char *postfixExpression)
+{
+  char *t = postfixExpression;
+  Stack *resultStack = createStack(strlen(postfixExpression));
+  while (*t)
+  {
+    char *str;
+    if (!isOperator(*t))
+    {
+      str = calloc(2, sizeof(char));
+      str[0] = *t;
+    }
+    else
+    {
+      char *secondOperand = pop(resultStack);
+      char *firstOperand = pop(resultStack);
+      char *operator= calloc(2, sizeof(char));
+      operator[0] = * t;
+      str = combineOperands(firstOperand, secondOperand, operator);
+    }
+    push(resultStack, str);
+    t++;
+  }
+  return (char *)pop(resultStack);
+}
 
+char *combineOperands(char *firstOperand, char *secondOperand, char *operator)
+{
+  char *r = calloc(strlen(firstOperand) + strlen(secondOperand) + 4, sizeof(char));
+  strcat(r, "(");
+  strcat(r, firstOperand);
+  strcat(r, operator);
+  strcat(r, secondOperand);
+  strcat(r, ")");
+  return r;
 }

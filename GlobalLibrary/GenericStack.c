@@ -3,6 +3,12 @@
 #include <stdlib.h>
 #include "GenericStack.h"
 
+// typedef struct {
+//     void **stack;
+//     int top;
+//     int size;
+// }Stack;
+
 bool isStackEmpty(Stack *s)
 {
     return s->top == -1;
