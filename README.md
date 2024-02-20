@@ -8,5 +8,5 @@
 - [x] Stack using two queue
 - [x] Infix to Post fix using stack
 - [x] Infix to Prefix using Stack 
-- [ ] Prefix evaluation
-- [ ] Postfix evaluation
+- [x] Prefix evaluation
+- [x] Postfix evaluation
