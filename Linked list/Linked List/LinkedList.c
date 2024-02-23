@@ -11,18 +11,28 @@ typedef struct ListNode
 ListNode *createNode(void *);
 bool insertAtEnd(ListNode **, void *);
 bool insertAtStart(ListNode **, void *);
+ListNode *removeFromEnd(ListNode **);
+ListNode *removeFromStart(ListNode **);
+
 void printIntegerList(ListNode **);
 
 int main()
 {
     ListNode *head = NULL;
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 3; i++)
     {
         int *data = malloc(sizeof(int));
         *data = i;
         i % 2 ? insertAtEnd(&head, data) : insertAtStart(&head, data);
     }
     printIntegerList(&head);
+    for (int i = 0; i < 4; i++)
+    {
+
+        i % 2 ? removeFromStart(&head) : removeFromEnd(&head);
+        printIntegerList(&head);
+    }
+
     return 1;
 }
 
@@ -89,4 +99,47 @@ void printIntegerList(ListNode **head)
         l = l->next;
     }
     printf("NULL");
+}
+
+ListNode *removeFromEnd(ListNode **head)
+{
+    ListNode *l = *head;
+    if (!l)
+    {
+        return NULL;
+    }
+
+    if (!l->next)
+    {
+        *head = NULL;
+        return l;
+    }
+    else
+    {
+        while (l->next->next)
+            l = l->next;
+
+        ListNode *t = l->next;
+        l->next = NULL;
+        return t;
+    }
+}
+ListNode *removeFromStart(ListNode **head)
+{
+    ListNode *l = *head;
+    if (!l)
+    {
+        return NULL;
+    }
+
+    if (!l->next)
+    {
+        *head = NULL;
+        return l;
+    }
+    else
+    {
+        *head = l->next;
+        return l;
+    }
 }
