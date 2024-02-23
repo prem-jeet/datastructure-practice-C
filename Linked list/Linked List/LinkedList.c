@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 typedef struct ListNode
 {
@@ -11,27 +12,47 @@ typedef struct ListNode
 ListNode *createNode(void *);
 bool insertAtEnd(ListNode **, void *);
 bool insertAtStart(ListNode **, void *);
+bool insertAfter(ListNode *, void *);
+
 ListNode *removeFromEnd(ListNode **);
 ListNode *removeFromStart(ListNode **);
 
 void printIntegerList(ListNode **);
 
+ListNode *find(ListNode **, void *, bool (*)(void *, void *));
+bool compareInt(void *, void *);
+bool compareFloat(void *, void *);
+bool compareString(void *, void *);
+bool compareChar(void *, void *);
+
 int main()
 {
     ListNode *head = NULL;
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 5; i++)
     {
         int *data = malloc(sizeof(int));
         *data = i;
         i % 2 ? insertAtEnd(&head, data) : insertAtStart(&head, data);
     }
     printIntegerList(&head);
-    for (int i = 0; i < 4; i++)
+    int *key = malloc(sizeof(int));
+    *key = 2;
+    ListNode *n = find(&head, key, compareInt);
+    if (n)
     {
-
-        i % 2 ? removeFromStart(&head) : removeFromEnd(&head);
-        printIntegerList(&head);
+        *key = 12;
+        insertAfter(n, key);
     }
+    printIntegerList(&head);
+    key = malloc(sizeof(int));
+    *key = 3;
+    n = find(&head, key, compareInt);
+    if (n)
+    {
+        *key = 13;
+        insertAfter(n, key);
+    }
+    printIntegerList(&head);
 
     return 1;
 }
@@ -82,6 +103,20 @@ bool insertAtStart(ListNode **head, void *data)
     newNode->next = *head;
     *head = newNode;
     return true;
+}
+
+bool insertAfter(ListNode *l, void *data)
+{
+    if (l)
+    {
+        ListNode *newNode = createNode(data);
+        if (!newNode)
+            return false;
+        newNode->next = l->next;
+        l->next = newNode;
+        return true;
+    }
+    return false;
 }
 
 void printIntegerList(ListNode **head)
@@ -142,4 +177,37 @@ ListNode *removeFromStart(ListNode **head)
         *head = l->next;
         return l;
     }
+}
+
+ListNode *find(ListNode **head, void *target, bool (*compare)(void *, void *))
+{
+    if (!*head)
+        return NULL;
+    ListNode *l = *head;
+    while (l)
+    {
+        if (compare(l->data, target))
+        {
+            return l;
+        }
+        l = l->next;
+    }
+    return NULL;
+}
+
+bool compareInt(void *a, void *b)
+{
+    return *(int *)a == *(int *)b;
+}
+bool compareFloat(void *a, void *b)
+{
+    return *(float *)a == *(float *)b;
+}
+bool compareString(void *a, void *b)
+{
+    return strcmp((char *)a, (char *)b);
+}
+bool compareChar(void *a, void *b)
+{
+    return (char *)a == (char *)b;
 }
