@@ -22,7 +22,7 @@ bool removeAt(ListNode **, ListNode *);
 
 ListNode *getFront(ListNode **head);
 ListNode *getEnd(ListNode **head);
-ListNode *getFront(ListNode **head);
+ListNode *get(ListNode **head, int);
 
 ListNode *find(ListNode **, void *, bool (*)(void *, void *));
 bool compareInt(void *, void *);
@@ -33,17 +33,21 @@ bool compareChar(void *, void *);
 int main()
 {
     ListNode *head = NULL;
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 2; i++)
     {
         int *data = malloc(sizeof(int));
-        *data = i;
-        i % 2 ? insertAtEnd(&head, data) : insertAtStart(&head, data);
+        *data = i + 10;
+        i % 2 ? insertEnd(&head, data) : insertFront(&head, data);
     }
     printIntegerList(&head);
-    int item = 0;
-    ListNode *target = find(&head, &item, compareInt);
-    removeAt(&head, target);
-    printIntegerList(&head);
+    for (int i = 0; i < 4; i++)
+    {
+        ListNode *n = get(&head, i);
+        if (n)
+        {
+            printf("\nValue at index %d is %d", i, *(int *)n->data);
+        }
+    }
     return 1;
 }
 
@@ -176,6 +180,38 @@ bool removeAt(ListNode **head, ListNode *target)
     return true;
 }
 
+ListNode *getFront(ListNode **head)
+{
+    if (!head)
+        return NULL;
+    return *head;
+}
+ListNode *getEnd(ListNode **head)
+{
+    if (!head)
+        return NULL;
+    ListNode *h = *head;
+    while (h->next)
+        h = h->next;
+    return h;
+}
+ListNode *get(ListNode **head, int index)
+{
+    if (!*head)
+        return NULL;
+    int i = index;
+    ListNode *t = *head;
+    while (i-- > 0)
+    {
+        t = t->next;
+        if (!t)
+        {
+            printf("\nIndex out of bound");
+            return NULL;
+        }
+    }
+    return t;
+}
 ListNode *find(ListNode **head, void *target, bool (*compare)(void *, void *))
 {
     if (!*head)
