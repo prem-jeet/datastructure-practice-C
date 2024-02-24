@@ -14,9 +14,9 @@ bool insertAtEnd(ListNode **, void *);
 bool insertAtStart(ListNode **, void *);
 bool insertAfter(ListNode *, void *);
 
-ListNode *removeFromEnd(ListNode **);
-ListNode *removeFromStart(ListNode **);
-
+bool removeFromEnd(ListNode **);
+bool removeFromStart(ListNode **);
+bool removeAt(ListNode **, ListNode *);
 void printIntegerList(ListNode **);
 
 ListNode *find(ListNode **, void *, bool (*)(void *, void *));
@@ -28,32 +28,17 @@ bool compareChar(void *, void *);
 int main()
 {
     ListNode *head = NULL;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 10; i++)
     {
         int *data = malloc(sizeof(int));
         *data = i;
         i % 2 ? insertAtEnd(&head, data) : insertAtStart(&head, data);
     }
     printIntegerList(&head);
-    int *key = malloc(sizeof(int));
-    *key = 2;
-    ListNode *n = find(&head, key, compareInt);
-    if (n)
-    {
-        *key = 12;
-        insertAfter(n, key);
-    }
+    int item = 0;
+    ListNode *target = find(&head, &item, compareInt);
+    removeAt(&head, target);
     printIntegerList(&head);
-    key = malloc(sizeof(int));
-    *key = 3;
-    n = find(&head, key, compareInt);
-    if (n)
-    {
-        *key = 13;
-        insertAfter(n, key);
-    }
-    printIntegerList(&head);
-
     return 1;
 }
 
@@ -136,19 +121,16 @@ void printIntegerList(ListNode **head)
     printf("NULL");
 }
 
-ListNode *removeFromEnd(ListNode **head)
+bool removeFromEnd(ListNode **head)
 {
     ListNode *l = *head;
-    if (!l)
+    if (!(l && l->next))
     {
-        return NULL;
+        free(l);
+        *head = NULL;
+        return true;
     }
 
-    if (!l->next)
-    {
-        *head = NULL;
-        return l;
-    }
     else
     {
         while (l->next->next)
@@ -156,27 +138,39 @@ ListNode *removeFromEnd(ListNode **head)
 
         ListNode *t = l->next;
         l->next = NULL;
-        return t;
+        free(t);
+        return true;
     }
 }
-ListNode *removeFromStart(ListNode **head)
+bool removeFromStart(ListNode **head)
 {
     ListNode *l = *head;
-    if (!l)
+    if (!(l && l->next))
     {
-        return NULL;
+        free(l);
+        *head = NULL;
+        return true;
     }
 
-    if (!l->next)
+    ListNode *t = l;
+    *head = l->next;
+    free(t);
+    return true;
+}
+bool removeAt(ListNode **head, ListNode *target)
+{
+    ListNode *h = *head;
+    if (h == target)
     {
+        free(h);
         *head = NULL;
-        return l;
+        return true;
     }
-    else
-    {
-        *head = l->next;
-        return l;
-    }
+    while (h->next != target)
+        h = h->next;
+    h->next = target->next;
+    free(target);
+    return true;
 }
 
 ListNode *find(ListNode **head, void *target, bool (*compare)(void *, void *))
