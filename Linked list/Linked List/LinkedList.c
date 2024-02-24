@@ -2,58 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "LisnkedList.h"
 
-typedef struct ListNode
-{
-    void *data;
-    struct ListNode *next;
-} ListNode;
-
-ListNode *createNode(void *);
-void printList(ListNode **, void (*)(void *));
-void printInt(void *);
-void printFloat(void *);
-void printChar(void *);
-void printStr(void *);
-
-bool insertFront(ListNode **, void *);
-bool insertEnd(ListNode **, void *);
-bool insertAfter(ListNode *, void *);
-
-bool removeFront(ListNode **);
-bool removeEnd(ListNode **);
-bool removeAt(ListNode **, ListNode *);
-
-ListNode *getFront(ListNode **head);
-ListNode *getEnd(ListNode **head);
-ListNode *get(ListNode **head, int);
-
-ListNode *find(ListNode **, void *, bool (*)(void *, void *));
-bool compareInt(void *, void *);
-bool compareFloat(void *, void *);
-bool compareString(void *, void *);
-bool compareChar(void *, void *);
-
-int main()
-{
-    ListNode *head = NULL;
-    for (int i = 0; i < 2; i++)
-    {
-        int *data = malloc(sizeof(int));
-        *data = i + 10;
-        i % 2 ? insertEnd(&head, data) : insertFront(&head, data);
-    }
-    printList(&head, printInt);
-    for (int i = 0; i < 4; i++)
-    {
-        ListNode *n = get(&head, i);
-        if (n)
-        {
-            printf("\nValue at index %d is %d", i, *(int *)n->data);
-        }
-    }
-    return 1;
-}
 
 ListNode *createNode(void *data)
 {
