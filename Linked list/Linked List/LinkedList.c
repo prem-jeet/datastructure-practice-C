@@ -10,7 +10,11 @@ typedef struct ListNode
 } ListNode;
 
 ListNode *createNode(void *);
-void printIntegerList(ListNode **);
+void printList(ListNode **, void (*)(void *));
+void printInt(void *);
+void printFloat(void *);
+void printChar(void *);
+void printStr(void *);
 
 bool insertFront(ListNode **, void *);
 bool insertEnd(ListNode **, void *);
@@ -39,7 +43,7 @@ int main()
         *data = i + 10;
         i % 2 ? insertEnd(&head, data) : insertFront(&head, data);
     }
-    printIntegerList(&head);
+    printList(&head, printInt);
     for (int i = 0; i < 4; i++)
     {
         ListNode *n = get(&head, i);
@@ -111,7 +115,7 @@ bool insertAfter(ListNode *l, void *data)
     return false;
 }
 
-void printIntegerList(ListNode **head)
+void printList(ListNode **head, void (*print)(void *))
 {
     printf("\n");
     if (!*head)
@@ -122,10 +126,26 @@ void printIntegerList(ListNode **head)
     ListNode *l = *head;
     while (l)
     {
-        printf("%d->", *(int *)l->data);
+        print(l->data);
         l = l->next;
     }
     printf("NULL");
+}
+void printInt(void *data)
+{
+    printf("%d->", *(int *)data);
+}
+void printFloat(void *data)
+{
+    printf("%0.2f->", *(float *)data);
+}
+void printChar(void *data)
+{
+    printf("%c->", *(char *)data);
+}
+void printStr(void *data)
+{
+    printf("%s->", (char *)data);
 }
 
 bool removeEnd(ListNode **head)
