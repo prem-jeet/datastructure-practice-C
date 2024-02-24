@@ -10,14 +10,19 @@ typedef struct ListNode
 } ListNode;
 
 ListNode *createNode(void *);
-bool insertAtEnd(ListNode **, void *);
-bool insertAtStart(ListNode **, void *);
+void printIntegerList(ListNode **);
+
+bool insertFront(ListNode **, void *);
+bool insertEnd(ListNode **, void *);
 bool insertAfter(ListNode *, void *);
 
-bool removeFromEnd(ListNode **);
-bool removeFromStart(ListNode **);
+bool removeFront(ListNode **);
+bool removeEnd(ListNode **);
 bool removeAt(ListNode **, ListNode *);
-void printIntegerList(ListNode **);
+
+ListNode *getFront(ListNode **head);
+ListNode *getEnd(ListNode **head);
+ListNode *getFront(ListNode **head);
 
 ListNode *find(ListNode **, void *, bool (*)(void *, void *));
 bool compareInt(void *, void *);
@@ -52,7 +57,7 @@ ListNode *createNode(void *data)
     return n;
 }
 
-bool insertAtEnd(ListNode **head, void *data)
+bool insertEnd(ListNode **head, void *data)
 {
     ListNode *newNode = createNode(data);
     if (!newNode)
@@ -71,8 +76,7 @@ bool insertAtEnd(ListNode **head, void *data)
     l->next = newNode;
     return true;
 }
-
-bool insertAtStart(ListNode **head, void *data)
+bool insertFront(ListNode **head, void *data)
 {
     ListNode *newNode = createNode(data);
     if (!newNode)
@@ -89,7 +93,6 @@ bool insertAtStart(ListNode **head, void *data)
     *head = newNode;
     return true;
 }
-
 bool insertAfter(ListNode *l, void *data)
 {
     if (l)
@@ -121,7 +124,7 @@ void printIntegerList(ListNode **head)
     printf("NULL");
 }
 
-bool removeFromEnd(ListNode **head)
+bool removeEnd(ListNode **head)
 {
     ListNode *l = *head;
     if (!(l && l->next))
@@ -142,7 +145,7 @@ bool removeFromEnd(ListNode **head)
         return true;
     }
 }
-bool removeFromStart(ListNode **head)
+bool removeFront(ListNode **head)
 {
     ListNode *l = *head;
     if (!(l && l->next))
