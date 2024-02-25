@@ -13,6 +13,8 @@
 
 
 ## Linked list
+- [x] Singly linked list
+- [ ] Circular linked list
 - [ ] Queue using circular linked list
 - [ ] Stack using circular linked list
 - [ ] Reverse a singly linked list
