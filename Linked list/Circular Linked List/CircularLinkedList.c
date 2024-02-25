@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 typedef struct ListNode
 {
@@ -23,7 +24,7 @@ bool insertRear(CLL *, void *);
 bool insertAfter(CLL *, void *);
 bool insertAt(CLL *, void *, int);
 
-bool find(CLL *, void *, bool (*)(void *, void *));
+ListNode *find(CLL *, void *, bool (*)(void *, void *));
 bool compareInt(void *, void *);
 bool compareFloat(void *, void *);
 bool compareChar(void *, void *);
@@ -133,10 +134,47 @@ bool insertAt(CLL *cll, void *data, int index)
             return false;
         newNode->next = t->next;
         t->next = newNode;
+        cll->capacity++;
         return true;
     }
     return false;
 }
+
+ListNode *find(CLL *cll, void *data, bool (*compare)(void *, void *))
+{
+    if (cll && cll->head && data && compare)
+    {
+        if (cll->head == cll->rear && compare(data, cll->head->data))
+            return cll->head;
+        ListNode *l = cll->head;
+        do
+        {
+            if (compare(l->data, data))
+            {
+                return l;
+            }
+            l = l->next;
+        } while (l != cll->head);
+    }
+    return NULL;
+}
+bool compareInt(void *a, void *b)
+{
+    return *(int *)a == *(int *)b;
+}
+bool compareFloat(void *a, void *b)
+{
+    return *(float *)a == *(float *)b;
+}
+bool compareChar(void *a, void *b)
+{
+    return *(char *)a == *(char *)b;
+}
+bool compareStr(void *a, void *b)
+{
+    return strcmp((char *)a, (char *)b);
+}
+
 void printCLL(CLL *cll, void (*print)(void *))
 {
     if (cll && print)
@@ -152,7 +190,6 @@ void printCLL(CLL *cll, void (*print)(void *))
         printf("\n");
     }
 }
-
 void printInt(void *data)
 {
     printf("%d->", *(int *)data);
