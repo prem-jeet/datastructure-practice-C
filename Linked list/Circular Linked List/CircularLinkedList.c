@@ -44,6 +44,15 @@ int main()
         i % 2 ? insertRear(cll, data) : insertFront(cll, data);
     }
     printCLL(cll, printInt);
+    int *data = malloc(sizeof(int));
+    *data = 200;
+    insertAt(cll, data, 3);
+    printCLL(cll, printInt);
+    data = malloc(sizeof(int));
+    *data = 200;
+    insertAt(cll, data, 0);
+    printCLL(cll, printInt);
+
     return 1;
 }
 
@@ -109,7 +118,25 @@ bool insertRear(CLL *cll, void *data)
     }
     return false;
 }
-
+bool insertAt(CLL *cll, void *data, int index)
+{
+    if (index > -1 && index < cll->capacity - 1 && cll && data)
+    {
+        if (index == 0)
+            return insertFront(cll, data);
+        int count = 0;
+        ListNode *t = cll->head;
+        while (++count != index)
+            t = t->next;
+        ListNode *newNode = createNode(data);
+        if (!newNode)
+            return false;
+        newNode->next = t->next;
+        t->next = newNode;
+        return true;
+    }
+    return false;
+}
 void printCLL(CLL *cll, void (*print)(void *))
 {
     if (cll && print)
