@@ -67,11 +67,11 @@ int main()
     *newNode = 101;
     insertAfter(cll, newNode, a);
     printCLL(cll, printInt);
-    printf("Capacity :%d\n", cll->capacity);\
+    printf("Capacity :%d\n", cll->capacity);
     data = malloc(sizeof(int));
     *data = 3;
     ListNode *b = find(cll, data, compareInt);
-     newNode = malloc(sizeof(int));
+    newNode = malloc(sizeof(int));
     *newNode = 103;
     insertAfter(cll, newNode, b);
     printCLL(cll, printInt);
