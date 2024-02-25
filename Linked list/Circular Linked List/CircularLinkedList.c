@@ -19,7 +19,7 @@ CLL *createCLL();
 ListNode *createNode(void *);
 
 bool insertFront(CLL *, void *);
-bool insertRare(CLL *, void *);
+bool insertRear(CLL *, void *);
 bool insertAfter(CLL *, void *);
 bool insertAt(CLL *, void *, int);
 
@@ -37,11 +37,11 @@ void printStr(void *);
 int main()
 {
     CLL *cll = createCLL();
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 5; i++)
     {
         int *data = malloc(sizeof(int));
         *data = i;
-        insertFront(cll, data);
+        i % 2 ? insertRear(cll, data) : insertFront(cll, data);
     }
     printCLL(cll, printInt);
     return 1;
@@ -69,11 +69,11 @@ ListNode *createNode(void *data)
 
 bool insertFront(CLL *cll, void *data)
 {
-    if (cll)
+    if (cll && data)
     {
-        ListNode *head = cll->head;
+
         ListNode *newNode = createNode(data);
-        if (!head)
+        if (!cll->head)
         {
             cll->rear = cll->head = newNode;
             return true;
@@ -85,7 +85,23 @@ bool insertFront(CLL *cll, void *data)
     }
     return false;
 }
-bool insertRare(CLL *, void *);
+bool insertRear(CLL *cll, void *data)
+{
+    if (cll && data)
+    {
+        ListNode *newNode = createNode(data);
+        if (!cll->head)
+        {
+            cll->rear = cll->head = newNode;
+            return true;
+        }
+        newNode->next = cll->rear->next;
+        cll->rear->next = newNode;
+        cll->rear = newNode;
+        return true;
+    }
+    return false;
+}
 
 void printCLL(CLL *cll, void (*print)(void *))
 {
