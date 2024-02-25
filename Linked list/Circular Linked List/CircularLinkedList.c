@@ -12,7 +12,7 @@ typedef struct CLL
     ListNode *head;
     ListNode *rear;
 
-    int size;
+    int capacity;
 } CLL;
 
 CLL *createCLL();
@@ -51,7 +51,7 @@ CLL *createCLL()
 {
     CLL *cll = malloc(sizeof(CLL));
     cll->rear = cll->head = NULL;
-    cll->size = 0;
+    cll->capacity = 0;
     return cll;
 }
 ListNode *createNode(void *data)
@@ -73,9 +73,13 @@ bool insertFront(CLL *cll, void *data)
     {
 
         ListNode *newNode = createNode(data);
+        if (!newNode)
+            return false;
+        cll->capacity++;
         if (!cll->head)
         {
             cll->rear = cll->head = newNode;
+
             return true;
         }
         cll->rear->next = newNode;
@@ -90,6 +94,9 @@ bool insertRear(CLL *cll, void *data)
     if (cll && data)
     {
         ListNode *newNode = createNode(data);
+        if (!newNode)
+            return false;
+        cll->capacity++;
         if (!cll->head)
         {
             cll->rear = cll->head = newNode;
