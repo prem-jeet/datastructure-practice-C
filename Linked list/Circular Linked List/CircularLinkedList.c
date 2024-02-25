@@ -21,7 +21,7 @@ ListNode *createNode(void *);
 
 bool insertFront(CLL *, void *);
 bool insertRear(CLL *, void *);
-bool insertAfter(CLL *, void *);
+bool insertAfter(CLL *, void *, ListNode *);
 bool insertAt(CLL *, void *, int);
 
 ListNode *find(CLL *, void *, bool (*)(void *, void *));
@@ -43,16 +43,39 @@ int main()
         int *data = malloc(sizeof(int));
         *data = i;
         i % 2 ? insertRear(cll, data) : insertFront(cll, data);
+        printf("Capacity :%d\n", cll->capacity);
     }
     printCLL(cll, printInt);
+    printf("Capacity :%d\n", cll->capacity);
+
     int *data = malloc(sizeof(int));
     *data = 200;
     insertAt(cll, data, 3);
     printCLL(cll, printInt);
+    printf("Capacity :%d\n", cll->capacity);
+
     data = malloc(sizeof(int));
     *data = 200;
     insertAt(cll, data, 0);
     printCLL(cll, printInt);
+    printf("Capacity :%d\n", cll->capacity);
+
+    data = malloc(sizeof(int));
+    *data = 0;
+    ListNode *a = find(cll, data, compareInt);
+    int *newNode = malloc(sizeof(int));
+    *newNode = 101;
+    insertAfter(cll, newNode, a);
+    printCLL(cll, printInt);
+    printf("Capacity :%d\n", cll->capacity);\
+    data = malloc(sizeof(int));
+    *data = 3;
+    ListNode *b = find(cll, data, compareInt);
+     newNode = malloc(sizeof(int));
+    *newNode = 103;
+    insertAfter(cll, newNode, b);
+    printCLL(cll, printInt);
+    printf("Capacity :%d\n", cll->capacity);
 
     return 1;
 }
@@ -134,6 +157,22 @@ bool insertAt(CLL *cll, void *data, int index)
             return false;
         newNode->next = t->next;
         t->next = newNode;
+        cll->capacity++;
+        return true;
+    }
+    return false;
+}
+bool insertAfter(CLL *cll, void *data, ListNode *target)
+{
+    if (cll && cll->head && data && target)
+    {
+        if (target == cll->rear)
+            return insertRear(cll, data);
+        ListNode *newNode = createNode(data);
+        if (!newNode)
+            return false;
+        newNode->next = target->next;
+        target->next = newNode;
         cll->capacity++;
         return true;
     }
