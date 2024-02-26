@@ -88,13 +88,10 @@ int main()
 
     ListNode *l = getFrom(cll, 4);
     printInt(l->data);
-    printf("\n Starting delete operation");
+    printf("\n Starting delete operation\n");
 
-    for (int i = 0; i < 10; i++)
-    {
-        deleteAfter(cll, cll->head);
-        printCLL(cll, printInt);
-    }
+    deleteAt(cll, 8);
+    printCLL(cll, printInt);
 
     return 1;
 }
@@ -241,9 +238,9 @@ bool deleteAfter(CLL *cll, ListNode *target)
 {
     if (cll && cll->head && target)
     {
-        cll->capacity--;
         if (target == cll->rear)
             return deleteFront(cll);
+        cll->capacity--;
         if (target == cll->rear && cll->rear == cll->head)
         {
             free(cll->head);
@@ -259,7 +256,22 @@ bool deleteAfter(CLL *cll, ListNode *target)
     }
     return true;
 }
-bool deleteAt(CLL *, int);
+bool deleteAt(CLL *cll, int index)
+{
+    if (cll && cll->head && index > -1 && index < cll->capacity)
+    {
+        if (index == 0)
+            return deleteFront(cll);
+        if (index == cll->capacity - 1)
+            return deleteRear(cll);
+        ListNode *l = cll->head;
+        int count = 1;
+        while (count++ != index)
+            l = l->next;
+        return deleteAfter(cll, l);
+    }
+    return false;
+}
 
 ListNode *find(CLL *cll, void *data, bool (*compare)(void *, void *))
 {
