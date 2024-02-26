@@ -28,10 +28,10 @@ ListNode *getFront(CLL *);
 ListNode *getRear(CLL *);
 ListNode *getFrom(CLL *, int);
 
-bool deleteFront(CLL *);
-bool deleteRear(CLL *);
-bool deleteAfter(CLL *, ListNode *);
-bool deleteAt(CLL *,  int);
+ListNode *deleteFront(CLL *);
+ListNode *deleteRear(CLL *);
+ListNode *deleteAfter(CLL *, ListNode *);
+ListNode *deleteAt(CLL *, int);
 
 ListNode *find(CLL *, void *, bool (*)(void *, void *));
 bool compareInt(void *, void *);
@@ -86,7 +86,7 @@ int main()
     printCLL(cll, printInt);
     printf("Capacity :%d\n", cll->capacity);
 
-    ListNode *l = getAt(cll, 4);
+    ListNode *l = getFrom(cll, 4);
     printInt(l->data);
     return 1;
 }
