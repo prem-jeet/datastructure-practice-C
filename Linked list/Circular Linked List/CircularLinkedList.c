@@ -28,10 +28,10 @@ ListNode *getFront(CLL *);
 ListNode *getRear(CLL *);
 ListNode *getFrom(CLL *, int);
 
-ListNode *deleteFront(CLL *);
-ListNode *deleteRear(CLL *);
-ListNode *deleteAfter(CLL *, ListNode *);
-ListNode *deleteAt(CLL *, int);
+bool deleteFront(CLL *);
+bool deleteRear(CLL *);
+bool deleteAfter(CLL *, ListNode *);
+bool deleteAt(CLL *, int);
 
 ListNode *find(CLL *, void *, bool (*)(void *, void *));
 bool compareInt(void *, void *);
@@ -88,9 +88,17 @@ int main()
 
     ListNode *l = getFrom(cll, 4);
     printInt(l->data);
+    printf("\n Starting delete operation");
+    for (int i = 0; i < 10; i++)
+    {
+        printf("\nDElete : ");
+        deleteFront(cll);
+        printf("\tCapacity %d and i:%d\n", cll->capacity, i);
+        printCLL(cll, printInt);
+    }
+
     return 1;
 }
-
 CLL *createCLL()
 {
     CLL *cll = malloc(sizeof(CLL));
@@ -190,6 +198,30 @@ bool insertAfter(CLL *cll, void *data, ListNode *target)
     return false;
 }
 
+bool deleteFront(CLL *cll)
+{
+    if (cll && cll->head)
+    {
+        ListNode *l = cll->head;
+        cll->capacity--;
+        if (l == cll->rear)
+        {
+            cll->head = cll->rear = NULL;
+        }
+        else
+        {
+            cll->head = l->next;
+            cll->rear->next = cll->head;
+        }
+        free(l);
+        return true;
+    }
+    return false;
+}
+bool deleteRear(CLL *);
+bool deleteAfter(CLL *, ListNode *);
+bool deleteAt(CLL *, int);
+
 ListNode *find(CLL *cll, void *data, bool (*compare)(void *, void *))
 {
     if (cll && cll->head && data && compare)
@@ -266,6 +298,11 @@ void printCLL(CLL *cll, void (*print)(void *))
     if (cll && print)
     {
         ListNode *n = cll->head;
+        if (!n)
+        {
+            printf("\nList is Empty");
+            return;
+        }
         while (true)
         {
             print(n->data);
