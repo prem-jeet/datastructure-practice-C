@@ -24,6 +24,10 @@ bool insertRear(CLL *, void *);
 bool insertAfter(CLL *, void *, ListNode *);
 bool insertAt(CLL *, void *, int);
 
+ListNode *getFront(CLL *);
+ListNode *getRear(CLL *);
+ListNode *getAt(CLL *, int);
+
 ListNode *find(CLL *, void *, bool (*)(void *, void *));
 bool compareInt(void *, void *);
 bool compareFloat(void *, void *);
@@ -77,6 +81,8 @@ int main()
     printCLL(cll, printInt);
     printf("Capacity :%d\n", cll->capacity);
 
+    ListNode *l = getAt(cll, 4);
+    printInt(l->data);
     return 1;
 }
 
@@ -212,6 +218,42 @@ bool compareChar(void *a, void *b)
 bool compareStr(void *a, void *b)
 {
     return strcmp((char *)a, (char *)b);
+}
+
+ListNode *getFront(CLL *cll)
+{
+    if (cll && cll->head)
+    {
+        return cll->head;
+    }
+    return NULL;
+}
+ListNode *getRear(CLL *cll)
+{
+    if (cll && cll->rear)
+    {
+        return cll->rear;
+    }
+    return NULL;
+}
+ListNode *getAt(CLL *cll, int index)
+{
+    if (cll && cll->head && index > -1 && index < cll->capacity)
+    {
+        int count = 0;
+        ListNode *l = cll->head;
+
+        while (true)
+        {
+            if (count > index)
+                return NULL;
+            if (count == index)
+                return l;
+            count++;
+            l = l->next;
+        }
+    }
+    return NULL;
 }
 
 void printCLL(CLL *cll, void (*print)(void *))
