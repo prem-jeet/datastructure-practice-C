@@ -26,7 +26,12 @@ bool insertAt(CLL *, void *, int);
 
 ListNode *getFront(CLL *);
 ListNode *getRear(CLL *);
-ListNode *getAt(CLL *, int);
+ListNode *getFrom(CLL *, int);
+
+bool deleteFront(CLL *);
+bool deleteRear(CLL *);
+bool deleteAfter(CLL *, ListNode *);
+bool deleteAt(CLL *,  int);
 
 ListNode *find(CLL *, void *, bool (*)(void *, void *));
 bool compareInt(void *, void *);
@@ -236,7 +241,7 @@ ListNode *getRear(CLL *cll)
     }
     return NULL;
 }
-ListNode *getAt(CLL *cll, int index)
+ListNode *getFrom(CLL *cll, int index)
 {
     if (cll && cll->head && index > -1 && index < cll->capacity)
     {
