@@ -91,9 +91,8 @@ int main()
     printf("\n Starting delete operation");
     for (int i = 0; i < 10; i++)
     {
-        printf("\nDElete : ");
-        deleteFront(cll);
-        printf("\tCapacity %d and i:%d\n", cll->capacity, i);
+        printf("\nDelete : ");
+        i%2 ? deleteFront(cll) : deleteRear(cll);
         printCLL(cll, printInt);
     }
 
@@ -218,7 +217,26 @@ bool deleteFront(CLL *cll)
     }
     return false;
 }
-bool deleteRear(CLL *);
+bool deleteRear(CLL *cll)
+{
+    if (cll && cll->head)
+    {
+        cll->capacity--;
+        if (cll->head == cll->rear)
+        {
+            cll->head = cll->rear = NULL;
+            return true;
+        }
+        ListNode *l = cll->head;
+        while (l->next != cll->rear)
+            l = l->next;
+        l->next = cll->rear->next;
+        free(cll->rear);
+        cll->rear = l;
+        return true;
+    }
+    return false;
+}
 bool deleteAfter(CLL *, ListNode *);
 bool deleteAt(CLL *, int);
 
