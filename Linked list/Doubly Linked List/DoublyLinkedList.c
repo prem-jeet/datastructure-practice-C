@@ -59,9 +59,13 @@ int main()
     printDLL(dll, printInt);
 
     int *a = malloc(sizeof(int));
-    *a=1001;
-    insertAt(dll,a,2);
-        printDLL(dll, printInt);
+    *a = 1001;
+    insertAt(dll, a, 2);
+    printDLL(dll, printInt);
+    a = malloc(sizeof(int));
+    *a = 11011;
+    insertAfter(dll, a, getFrom(dll,5));
+    printDLL(dll, printInt);
 
     return 1;
 }
@@ -155,6 +159,29 @@ bool insertAt(DLL *dll, void *data, int index)
     while (count++ != index)
         n = n->next;
     return insertAfter(dll, data, n);
+}
+
+DLLNode *getFront(DLL *dll)
+{
+    if (!(dll && dll->head))
+        return NULL;
+    return dll->head;
+}
+DLLNode *getRear(DLL *dll)
+{
+    if (!(dll && dll->head))
+        return NULL;
+    return dll->rear;
+}
+DLLNode *getFrom(DLL *dll, int index)
+{
+    if (!(dll && dll->head && index > -1 && index < dll->capacity))
+        return NULL;
+    int count = 0;
+    DLLNode *n = dll->head;
+    while (count++ != index)
+        n = n->next;
+    return n;
 }
 
 void printDLL(DLL *dll, void (*print)(void *))
