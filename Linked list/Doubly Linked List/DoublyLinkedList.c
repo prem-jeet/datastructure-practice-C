@@ -50,3 +50,38 @@ int main()
 {
     return 1;
 }
+
+void printDLL(DLL *dll, void (*print)(void *))
+{
+    if (!(dll && print))
+        return;
+    if (!dll->head)
+    {
+        printf("\nList is empty");
+        return;
+    }
+    DLLNode *n = dll->head;
+
+    while (n)
+    {
+        printf(n == dll->head ? "<-" : "<->");
+        print(n->data);
+        printf(n == dll->rear ? "->" : "<->");
+    }
+}
+void printInt(void *data)
+{
+    printf("%d", *(int *)data);
+}
+void printFloat(void *data)
+{
+    printf("%0.2f", *(float *)data);
+}
+void printChar(void *data)
+{
+    printf("%c", *(char *)data);
+}
+void printStr(void *data)
+{
+    printf("%s", (char *)data);
+}
