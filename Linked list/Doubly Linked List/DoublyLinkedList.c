@@ -24,7 +24,7 @@ DLL *createDLL();
 bool insertFront(DLL *, void *);
 bool insertRear(DLL *, void *);
 bool insertAfter(DLL *, void *, DLLNode *);
-bool insertAt(DLL *, void *);
+bool insertAt(DLL *, void *, int);
 
 DLLNode *find(DLL *, void *, bool (*)(void *, void *));
 bool compareInt(void *, void *);
@@ -57,6 +57,12 @@ int main()
         i % 2 ? insertFront(dll, data) : insertRear(dll, data);
     }
     printDLL(dll, printInt);
+
+    int *a = malloc(sizeof(int));
+    *a=1001;
+    insertAt(dll,a,2);
+        printDLL(dll, printInt);
+
     return 1;
 }
 
@@ -98,7 +104,6 @@ bool insertFront(DLL *dll, void *data)
     dll->head = newNode;
     return true;
 }
-
 bool insertRear(DLL *dll, void *data)
 {
     if (!(dll && data))
@@ -116,6 +121,40 @@ bool insertRear(DLL *dll, void *data)
     dll->rear->next = newNode;
     dll->rear = newNode;
     return true;
+}
+bool insertAfter(DLL *dll, void *data, DLLNode *target)
+{
+    if (!(dll && data && target))
+        return false;
+    if (target == dll->rear)
+        return insertRear(dll, data);
+    dll->capacity++;
+    DLLNode *newNode = createDLLNode(data);
+    if (!newNode)
+        return false;
+
+    newNode->next = target->next;
+    newNode->prev = target;
+    newNode->next->prev = newNode;
+    target->next = newNode;
+    return true;
+}
+bool insertAt(DLL *dll, void *data, int index)
+{
+    if (!(dll && data && index > -1 && index < dll->capacity))
+        return false;
+    if (index == 0)
+        return insertFront(dll, data);
+    if (index == dll->capacity - 1)
+        return insertRear(dll, data);
+    if (!data)
+        return false;
+    dll->capacity++;
+    DLLNode *n = dll->head;
+    int count = 1;
+    while (count++ != index)
+        n = n->next;
+    return insertAfter(dll, data, n);
 }
 
 void printDLL(DLL *dll, void (*print)(void *))
