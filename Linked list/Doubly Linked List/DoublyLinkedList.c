@@ -35,7 +35,7 @@ bool compareStr(void *, void *);
 bool deleteFront(DLL *);
 bool deleteRear(DLL *);
 bool deleteAfter(DLL *, DLLNode *);
-bool deleteFrom(DLL *);
+bool deleteFrom(DLL *, int);
 
 DLLNode *getFront(DLL *);
 DLLNode *getRear(DLL *);
@@ -50,7 +50,7 @@ void printStr(void *);
 int main()
 {
     DLL *dll = createDLL();
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 8; i++)
     {
         int *data = malloc(sizeof(int));
         *data = i + 10 * (i * 10);
@@ -64,9 +64,16 @@ int main()
     printDLL(dll, printInt);
     a = malloc(sizeof(int));
     *a = 11011;
-    insertAfter(dll, a, getFrom(dll,5));
+    insertAfter(dll, a, getFrom(dll, 5));
     printDLL(dll, printInt);
-
+    deleteFront(dll);
+    printDLL(dll, printInt);
+    deleteRear(dll);
+    printDLL(dll, printInt);
+    deleteFrom(dll, 0);
+    printDLL(dll, printInt);
+    deleteFrom(dll, 3);
+    printDLL(dll, printInt);
     return 1;
 }
 
@@ -182,6 +189,73 @@ DLLNode *getFrom(DLL *dll, int index)
     while (count++ != index)
         n = n->next;
     return n;
+}
+
+bool deleteFront(DLL *dll)
+{
+    if (!(dll && dll->head))
+        return false;
+    dll->capacity--;
+
+    DLLNode *n = dll->head;
+    dll->head = n->next;
+    free(n);
+    if (!dll->head)
+    {
+        dll->head = dll->rear = NULL;
+    }
+    else
+    {
+        dll->head->prev = NULL;
+    }
+    return true;
+}
+bool deleteRear(DLL *dll)
+{
+    if (!(dll && dll->head))
+        return false;
+    DLLNode *n = dll->rear;
+    dll->rear = n->prev;
+    free(n);
+    dll->capacity--;
+    if (!dll->rear)
+    {
+        dll->head = dll->rear = NULL;
+    }
+    else
+    {
+        dll->rear->next = NULL;
+    }
+    return true;
+}
+bool deleteAfter(DLL *dll, DLLNode *target)
+{
+    if (!(dll && dll->head && target))
+        return false;
+    if (target == dll->rear)
+        return false;
+    if (target->next == dll->rear)
+        return deleteRear(dll);
+    dll->capacity--;
+    DLLNode *n = target->next;
+    target->next = n->next;
+    n->next->prev = target;
+    free(n);
+    return true;
+}
+bool deleteFrom(DLL *dll, int index)
+{
+    if (!(dll && dll->head && index > -1 && index < dll->capacity))
+        return false;
+    if (index == 0)
+        return deleteFront(dll);
+    if (index == dll->capacity - 1)
+        return deleteRear(dll);
+    DLLNode *n = dll->head;
+    int count = 1;
+    while (count++ != index)
+        n = n->next;
+    return deleteAfter(dll, n);
 }
 
 void printDLL(DLL *dll, void (*print)(void *))
