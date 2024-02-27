@@ -74,6 +74,15 @@ int main()
     printDLL(dll, printInt);
     deleteFrom(dll, 3);
     printDLL(dll, printInt);
+
+    DLLNode *l = find(dll, a, compareInt);
+    if (l)
+    {
+        int *b = malloc(sizeof(int));
+        *b = 9090;
+        insertAfter(dll, b, l);
+    }
+    printDLL(dll, printInt);
     return 1;
 }
 
@@ -256,6 +265,38 @@ bool deleteFrom(DLL *dll, int index)
     while (count++ != index)
         n = n->next;
     return deleteAfter(dll, n);
+}
+
+DLLNode *find(DLL *dll, void *data, bool (*compare)(void *, void *))
+{
+    if (!(dll && dll->head && data && compare))
+        return NULL;
+    DLLNode *n = dll->head;
+    while (true)
+    {
+        if (!n)
+            return NULL;
+        bool isEqual = compare(n->data, data);
+        if (isEqual)
+            return n;
+        n = n->next;
+    }
+}
+bool compareInt(void *a, void *b)
+{
+    return *(int *)a == *(int *)b;
+}
+bool compareFloat(void *a, void *b)
+{
+    return *(float *)a == *(float *)b;
+}
+bool compareChar(void *a, void *b)
+{
+    return *(char *)a == *(char *)b;
+}
+bool compareStr(void *a, void *b)
+{
+    return strcmp((char *)a, (char *)b);
 }
 
 void printDLL(DLL *dll, void (*print)(void *))
