@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,6 +49,14 @@ void printStr(void *);
 
 int main()
 {
+    DLL *dll = createDLL();
+    for (int i = 0; i < 5; i++)
+    {
+        int *data = malloc(sizeof(int));
+        *data = i + 10 * (i * 10);
+        i % 2 ? insertFront(dll, data) : insertRear(dll, data);
+    }
+    printDLL(dll, printInt);
     return 1;
 }
 
@@ -70,6 +79,45 @@ DLL *createDLL()
     return dll;
 }
 
+bool insertFront(DLL *dll, void *data)
+{
+    if (!(dll && data))
+        return false;
+    DLLNode *newNode = createDLLNode(data);
+    if (!newNode)
+        return false;
+    dll->capacity++;
+    if (!dll->head)
+    {
+        dll->head = dll->rear = newNode;
+        return true;
+    }
+
+    newNode->next = dll->head;
+    dll->head->prev = newNode;
+    dll->head = newNode;
+    return true;
+}
+
+bool insertRear(DLL *dll, void *data)
+{
+    if (!(dll && data))
+        return false;
+    DLLNode *newNode = createDLLNode(data);
+    if (!newNode)
+        return false;
+    dll->capacity++;
+    if (!dll->head)
+    {
+        dll->head = dll->rear = newNode;
+        return true;
+    }
+    newNode->prev = dll->rear;
+    dll->rear->next = newNode;
+    dll->rear = newNode;
+    return true;
+}
+
 void printDLL(DLL *dll, void (*print)(void *))
 {
     if (!(dll && print))
@@ -83,10 +131,12 @@ void printDLL(DLL *dll, void (*print)(void *))
 
     while (n)
     {
-        printf(n == dll->head ? "<-" : "<->");
+        printf(n == dll->head ? " <- " : " <-> ");
         print(n->data);
-        printf(n == dll->rear ? "->" : "<->");
+        printf(n == dll->rear ? " -> " : "");
+        n = n->next;
     }
+    printf("\n");
 }
 void printInt(void *data)
 {
