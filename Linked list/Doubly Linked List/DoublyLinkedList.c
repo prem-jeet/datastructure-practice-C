@@ -14,7 +14,7 @@ typedef struct
 {
     DLLNode *head;
     DLLNode *rear;
-    int size;
+    int capacity;
 } DLL;
 
 DLLNode *createDLLNode(void *);
@@ -49,6 +49,25 @@ void printStr(void *);
 int main()
 {
     return 1;
+}
+
+DLLNode *createDLLNode(void *data)
+{
+    DLLNode *n = malloc(sizeof(DLLNode));
+    if (!n)
+        return NULL;
+    n->next = n->prev = NULL;
+    n->data = data;
+    return n;
+}
+DLL *createDLL()
+{
+    DLL *dll = malloc(sizeof(DLL));
+    if (!dll)
+        return NULL;
+    dll->head = dll->rear = NULL;
+    dll->capacity = 0;
+    return dll;
 }
 
 void printDLL(DLL *dll, void (*print)(void *))
