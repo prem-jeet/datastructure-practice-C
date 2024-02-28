@@ -49,10 +49,18 @@ int main() { return 1; }
 DLLNode *createDLLNode(void *data) {
   if (!data)
     return NULL;
-  DLLNode* newNode = malloc(sizeof(DLLNode));
-  if(!newNode) return NULL;
+  DLLNode *newNode = malloc(sizeof(DLLNode));
+  if (!newNode)
+    return NULL;
   newNode->next = newNode->prev = NULL;
   newNode->data = data;
   return newNode;
 }
-CDLL *createDLL();
+CDLL *createCDLL() {
+  CDLL *cdll = malloc(sizeof(CDLL));
+  if (!cdll)
+    return NULL;
+  cdll->head = cdll->rear = NULL;
+  cdll->capacity = 0;
+  return cdll;
+}
