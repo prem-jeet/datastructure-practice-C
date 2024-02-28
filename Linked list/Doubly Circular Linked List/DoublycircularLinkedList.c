@@ -56,8 +56,12 @@ int main() {
   printCDLL(cdll, printInt);
   deleteRear(cdll);
   printCDLL(cdll, printInt);
-  DLLNode *n = getFrom(cdll, 0);
-  deleteAfter(cdll, n);
+  printf("delete from\n");
+  deleteFrom(cdll, 1);
+  printCDLL(cdll, printInt);
+  deleteFrom(cdll, 1);
+  printCDLL(cdll, printInt);
+  deleteFrom(cdll, 0);
   printCDLL(cdll, printInt);
 
   // DLLNode *n = getFrom(cdll, 3);
@@ -223,7 +227,15 @@ bool deleteAfter(CDLL *cdll, DLLNode *target) {
   free(n);
   return true;
 }
-bool deleteFrom(CDLL *cdll, int index);
+bool deleteFrom(CDLL *cdll, int index) {
+  if (!(cdll && cdll->head && index > -1 && index < cdll->capacity))
+    return false;
+  if (index == 0)
+    return deleteFront(cdll);
+  if (index == cdll->capacity - 1)
+    return deleteRear(cdll);
+  return deleteAfter(cdll, getFrom(cdll, index - 1));
+}
 
 void printCDLL(CDLL *cdll, void (*print)(void *)) {
   if (!(cdll && print))
