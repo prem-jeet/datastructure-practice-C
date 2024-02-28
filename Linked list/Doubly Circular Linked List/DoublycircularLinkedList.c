@@ -38,13 +38,16 @@ DLLNode *getFront(CDLL *);
 DLLNode *getRear(CDLL *);
 DLLNode *getFrom(CDLL *, int);
 
-void printDLL(CDLL *, void (*)(void *));
+void printCDLL(CDLL *, void (*)(void *));
 void printInt(void *);
 void printFloat(void *);
 void printChar(void *);
 void printStr(void *);
 
-int main() { return 1; }
+int main() { 
+  CDLL* cdll = createCDLL();
+  printCDLL(cdll, printInt);
+  return 1; }
 
 DLLNode *createDLLNode(void *data) {
   if (!data)
@@ -64,3 +67,26 @@ CDLL *createCDLL() {
   cdll->capacity = 0;
   return cdll;
 }
+
+void printCDLL(CDLL *cdll, void (*print)(void *)) {
+  if (!(cdll && print))
+    return;
+  if (!cdll->head) {
+    printf("\nList is empty");
+    return;
+  }
+  DLLNode *n = cdll->head;
+
+  do {
+    printf(n == cdll->head ? " <- " : " <-> ");
+    print(n->data);
+    printf(n == cdll->rear ? " -> " : "");
+    n = n->next;
+  } while (n->next != cdll->head);
+
+  printf("\n");
+}
+void printInt(void *data) { printf("%d", *(int *)data); }
+void printFloat(void *data) { printf("%0.2f", *(float *)data); }
+void printChar(void *data) { printf("%c", *(char *)data); }
+void printStr(void *data) { printf("%s", (char *)data); }
