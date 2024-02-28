@@ -56,14 +56,13 @@ int main() {
   printCDLL(cdll, printInt);
   deleteRear(cdll);
   printCDLL(cdll, printInt);
-  printf("delete from\n");
-  deleteFrom(cdll, 1);
-  printCDLL(cdll, printInt);
-  deleteFrom(cdll, 1);
-  printCDLL(cdll, printInt);
-  deleteFrom(cdll, 0);
-  printCDLL(cdll, printInt);
 
+  int *toFind = malloc(sizeof(int));
+  *toFind = 2;
+  DLLNode *n = find(cdll, toFind, compareInt);
+  if (n) {
+    printf("Found data is : %d", *(int *)n->data);
+  }
   // DLLNode *n = getFrom(cdll, 3);
   // int *a = malloc(sizeof(int));
   // *a = 909;
@@ -236,6 +235,22 @@ bool deleteFrom(CDLL *cdll, int index) {
     return deleteRear(cdll);
   return deleteAfter(cdll, getFrom(cdll, index - 1));
 }
+
+DLLNode *find(CDLL *cdll, void *data, bool (*compare)(void *, void *)) {
+  if (!(cdll && cdll->head && data && compare))
+    return NULL;
+  DLLNode *n = cdll->head;
+  do {
+    if (compare(n->data, data))
+      return n;
+    n = n->next;
+  } while (n != cdll->head);
+  return NULL;
+}
+bool compareInt(void *a, void *b) { return *(int *)a == *(int *)b; }
+bool compareFloat(void *a, void *b) { return *(float *)a == *(float *)b; }
+bool compareChar(void *a, void *b) { return *(char *)a == *(char *)b; }
+bool compareStr(void *a, void *b) { return strcmp((char *)a, (char *)b); }
 
 void printCDLL(CDLL *cdll, void (*print)(void *)) {
   if (!(cdll && print))
