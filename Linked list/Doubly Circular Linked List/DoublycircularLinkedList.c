@@ -56,11 +56,14 @@ int main() {
   printCDLL(cdll, printInt);
   deleteRear(cdll);
   printCDLL(cdll, printInt);
+  DLLNode *n = getFrom(cdll, 0);
+  deleteAfter(cdll, n);
+  printCDLL(cdll, printInt);
+
   // DLLNode *n = getFrom(cdll, 3);
   // int *a = malloc(sizeof(int));
   // *a = 909;
   // insertAfter(cdll, a, n);
-  // printCDLL(cdll, printInt);
 
   // a = malloc(sizeof(int));
   // *a = 787;
@@ -206,7 +209,20 @@ bool deleteRear(CDLL *cdll) {
   cdll->rear = cdll->head->prev;
   return true;
 }
-bool deleteAfter(CDLL *cdll, DLLNode *target);
+bool deleteAfter(CDLL *cdll, DLLNode *target) {
+  if (!(cdll && cdll->head && target))
+    return false;
+  if (target->next == cdll->rear)
+    return deleteRear(cdll);
+  if (target == cdll->rear)
+    return deleteFront(cdll);
+  cdll->capacity--;
+  DLLNode *n = target->next;
+  target->next = n->next;
+  n->next->prev = target;
+  free(n);
+  return true;
+}
 bool deleteFrom(CDLL *cdll, int index);
 
 void printCDLL(CDLL *cdll, void (*print)(void *)) {
