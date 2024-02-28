@@ -44,10 +44,16 @@ void printFloat(void *);
 void printChar(void *);
 void printStr(void *);
 
-int main() { 
-  CDLL* cdll = createCDLL();
+int main() {
+  CDLL *cdll = createCDLL();
+  for (int i = 0; i < 2; i++) {
+    int *data = malloc(sizeof(int));
+    *data = i;
+    insertFront(cdll, data);
+  }
   printCDLL(cdll, printInt);
-  return 1; }
+  return 1;
+}
 
 DLLNode *createDLLNode(void *data) {
   if (!data)
@@ -68,6 +74,28 @@ CDLL *createCDLL() {
   return cdll;
 }
 
+bool insertFront(CDLL *cdll, void *data) {
+  if (!(cdll && data))
+    return false;
+  DLLNode *newNode = createDLLNode(data);
+  if (!newNode)
+    return false;
+  cdll->capacity++;
+  if (!cdll->head)
+    cdll->head = cdll->rear = newNode;
+
+  newNode->next = cdll->head;
+  newNode->prev = cdll->rear;
+  cdll->rear->next = newNode;
+  cdll->head->prev = newNode;
+  cdll->head = newNode;
+
+  return true;
+}
+bool insertRear(CDLL *, void *);
+bool insertAfter(CDLL *, void *, DLLNode *);
+bool insertAt(CDLL *, void *, int);
+
 void printCDLL(CDLL *cdll, void (*print)(void *)) {
   if (!(cdll && print))
     return;
@@ -82,7 +110,7 @@ void printCDLL(CDLL *cdll, void (*print)(void *)) {
     print(n->data);
     printf(n == cdll->rear ? " -> " : "");
     n = n->next;
-  } while (n->next != cdll->head);
+  } while (n != cdll->head);
 
   printf("\n");
 }
