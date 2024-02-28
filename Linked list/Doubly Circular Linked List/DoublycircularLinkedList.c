@@ -52,6 +52,11 @@ int main() {
     i % 2 ? insertFront(cdll, data) : insertRear(cdll, data);
   }
   printCDLL(cdll, printInt);
+  DLLNode *n = getFrom(cdll, 3);
+  int *a = malloc(sizeof(int));
+  *a = 909;
+  insertAfter(cdll, a, n);
+  printCDLL(cdll, printInt);
   return 1;
 }
 
@@ -108,8 +113,48 @@ bool insertRear(CDLL *cdll, void *data) {
   cdll->rear = newNode;
   return true;
 }
-bool insertAfter(CDLL *, void *, DLLNode *);
+bool insertAfter(CDLL *cdll, void *data, DLLNode *target) {
+  if (!(cdll && data && target))
+    return false;
+  if (target == cdll->rear) {
+    insertFront(cdll, data);
+    return true;
+  }
+  DLLNode *newNode = createDLLNode(data);
+  if (!newNode)
+    return false;
+  cdll->capacity++;
+  newNode->next = target->next;
+  newNode->prev = target;
+  target->next->prev = newNode;
+  target->next = newNode;
+  return true;
+}
 bool insertAt(CDLL *, void *, int);
+
+DLLNode *getFront(CDLL *cdll) {
+  if (!(cdll && cdll->head))
+    return NULL;
+  return cdll->head;
+}
+DLLNode *getRear(CDLL *cdll) {
+  if (!(cdll && cdll->rear))
+    return NULL;
+  return cdll->rear;
+}
+DLLNode *getFrom(CDLL *cdll, int index) {
+  if (!(cdll && cdll->head && index > -1 && index < cdll->capacity))
+    return NULL;
+  if (index == 0)
+    return getFront(cdll);
+  if (index == cdll->capacity - 1)
+    return getRear(cdll);
+  int count = 0;
+  DLLNode *n = cdll->head;
+  while (count++ != index)
+    n = n->next;
+  return n;
+}
 
 void printCDLL(CDLL *cdll, void (*print)(void *)) {
   if (!(cdll && print))
