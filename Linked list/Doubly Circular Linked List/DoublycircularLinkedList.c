@@ -1,80 +1,8 @@
+#include "DoublyCircularLinkedList.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef struct DLLNode {
-  void *data;
-  struct DLLNode *next;
-  struct DLLNode *prev;
-} DLLNode;
-
-typedef struct {
-  DLLNode *head;
-  DLLNode *rear;
-  int capacity;
-} CDLL;
-
-DLLNode *createDLLNode(void *);
-CDLL *createCDLL();
-
-bool insertFront(CDLL *, void *);
-bool insertRear(CDLL *, void *);
-bool insertAfter(CDLL *, void *, DLLNode *);
-bool insertAt(CDLL *, void *, int);
-
-DLLNode *find(CDLL *, void *, bool (*)(void *, void *));
-bool compareInt(void *, void *);
-bool compareFloat(void *, void *);
-bool compareChar(void *, void *);
-bool compareStr(void *, void *);
-
-bool deleteFront(CDLL *);
-bool deleteRear(CDLL *);
-bool deleteAfter(CDLL *, DLLNode *);
-bool deleteFrom(CDLL *, int);
-
-DLLNode *getFront(CDLL *);
-DLLNode *getRear(CDLL *);
-DLLNode *getFrom(CDLL *, int);
-
-void printCDLL(CDLL *, void (*)(void *));
-void printInt(void *);
-void printFloat(void *);
-void printChar(void *);
-void printStr(void *);
-
-int main() {
-  CDLL *cdll = createCDLL();
-  for (int i = 0; i < 5; i++) {
-    int *data = malloc(sizeof(int));
-    *data = i;
-    i % 2 ? insertFront(cdll, data) : insertRear(cdll, data);
-  }
-  printCDLL(cdll, printInt);
-  deleteFront(cdll);
-  printCDLL(cdll, printInt);
-  deleteRear(cdll);
-  printCDLL(cdll, printInt);
-
-  int *toFind = malloc(sizeof(int));
-  *toFind = 2;
-  DLLNode *n = find(cdll, toFind, compareInt);
-  if (n) {
-    printf("Found data is : %d", *(int *)n->data);
-  }
-  // DLLNode *n = getFrom(cdll, 3);
-  // int *a = malloc(sizeof(int));
-  // *a = 909;
-  // insertAfter(cdll, a, n);
-
-  // a = malloc(sizeof(int));
-  // *a = 787;
-  // insertAt(cdll, a, 4);
-  // printCDLL(cdll, printInt);
-
-  return 1;
-}
 
 DLLNode *createDLLNode(void *data) {
   if (!data)
