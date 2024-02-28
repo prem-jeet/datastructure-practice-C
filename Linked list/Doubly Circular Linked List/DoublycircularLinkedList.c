@@ -46,10 +46,10 @@ void printStr(void *);
 
 int main() {
   CDLL *cdll = createCDLL();
-  for (int i = 0; i < 2; i++) {
+  for (int i = 0; i < 5; i++) {
     int *data = malloc(sizeof(int));
     *data = i;
-    insertFront(cdll, data);
+    i % 2 ? insertFront(cdll, data) : insertRear(cdll, data);
   }
   printCDLL(cdll, printInt);
   return 1;
@@ -92,7 +92,22 @@ bool insertFront(CDLL *cdll, void *data) {
 
   return true;
 }
-bool insertRear(CDLL *, void *);
+bool insertRear(CDLL *cdll, void *data) {
+  if (!(cdll && data))
+    return false;
+  if (!cdll->head)
+    return insertFront(cdll, data);
+  DLLNode *newNode = createDLLNode(data);
+  if (!newNode)
+    return false;
+  cdll->capacity++;
+  newNode->next = cdll->head;
+  newNode->prev = cdll->rear;
+  cdll->rear->next = newNode;
+  cdll->head->prev = newNode;
+  cdll->rear = newNode;
+  return true;
+}
 bool insertAfter(CDLL *, void *, DLLNode *);
 bool insertAt(CDLL *, void *, int);
 
