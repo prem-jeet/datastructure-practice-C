@@ -54,6 +54,8 @@ int main() {
   printCDLL(cdll, printInt);
   deleteFront(cdll);
   printCDLL(cdll, printInt);
+  deleteRear(cdll);
+  printCDLL(cdll, printInt);
   // DLLNode *n = getFrom(cdll, 3);
   // int *a = malloc(sizeof(int));
   // *a = 909;
@@ -189,10 +191,21 @@ bool deleteFront(CDLL *cdll) {
   cdll->rear->next = cdll->head->next;
   cdll->head->next->prev = cdll->rear;
   free(cdll->head);
-  cdll->head = cdll->rear->prev;
+  cdll->head = cdll->rear->next;
   return true;
 }
-bool deleteRear(CDLL *cdll);
+bool deleteRear(CDLL *cdll) {
+  if (!(cdll && cdll->head))
+    return false;
+  if (cdll->head == cdll->rear)
+    return deleteFront(cdll);
+  cdll->capacity--;
+  cdll->head->prev = cdll->rear->prev;
+  cdll->rear->prev->next = cdll->head;
+  free(cdll->rear);
+  cdll->rear = cdll->head->prev;
+  return true;
+}
 bool deleteAfter(CDLL *cdll, DLLNode *target);
 bool deleteFrom(CDLL *cdll, int index);
 
