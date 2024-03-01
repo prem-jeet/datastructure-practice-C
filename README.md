@@ -17,8 +17,8 @@
 - [x] Circular linked list
 - [x] Doubly linked list
 - [x] Doubly circular linked list
-- [ ] Queue using circular linked list
-- [ ] Stack using circular linked list
+- [x] Queue using circular doubly linked list
+- [ ] Stack using circular doubly linked list
 - [ ] Reverse a singly linked list
 - [ ] Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
 - [ ] How to convert a sorted list to a binary search tree?
