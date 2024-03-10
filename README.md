@@ -27,3 +27,6 @@
 - [ ] How do you find the middle element of a singly linked list in one pass?
 - [ ] How do you check if a given linked list contains a cycle? How do you find the starting node of the cycle?
 - [ ] How do you find the third node from the end in a singly linked list? 
+
+## Tree
+- [ ] Traversals (Preorder[CLR], Postorder[LRC], Inorder[LCR], Converse Preorder[CRL], Converse Inorder[RCL], Converse Postorder[RLC])
