@@ -18,7 +18,7 @@ void *pop(Stack *s) {
     printf("\nStack is empty\n");
     return NULL;
   }
-  DLLNode *temp = createDLLNode(getFront(s->stack));
+  DLLNode *temp = createDLLNode(getFront(s->stack)->data);
   deleteFront(s->stack);
   return temp->data;
 }
