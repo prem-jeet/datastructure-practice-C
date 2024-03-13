@@ -1,8 +1,10 @@
 /*
 gcc TreeTraversal.c ../TreeHelper.c ../../GlobalLibrary/GenericQueue.c
+../../GlobalLibrary/GenericStack.c
 ../../Linked\ list/Doubly\ Circular\ Linked\ List/DoublycircularLinkedList.c
 */
 #include "../../GlobalLibrary/GenericQueue.h"
+#include "../../GlobalLibrary/GenericStack.h"
 #include "../TreeHelper.h"
 #include <stdio.h>
 
@@ -27,7 +29,6 @@ void printInorder(TreeNode node) {
     printInorder(node->right);
   }
 }
-
 void printConversePreorder(TreeNode node) {
   if (node) {
     printf("%d", node->data);
@@ -49,7 +50,6 @@ void printConverseInorder(TreeNode node) {
     printConverseInorder(node->left);
   }
 }
-
 void printLevelorder(TreeNode root) {
   Queue q = createQueue();
   enqueue(q, root);
@@ -63,6 +63,66 @@ void printLevelorder(TreeNode root) {
   }
 }
 
+void iterativePreorder(TreeNode root) {
+  /*
+  LOOP start
+    -LOOP till left subtree
+      --print current node
+      --push current node in stack
+      -- go left subtree
+    -if stack empty
+      --then stop
+    else
+      --pop from stack
+      --to right subtree
+  */
+  if (!root)
+    return;
+  Stack *s = createStack();
+  TreeNode temp = root;
+  while (true) {
+    while (temp) {
+      printf("%d", temp->data);
+      push(s, temp);
+      temp = temp->left;
+    }
+    if (isStackEmpty(s))
+      return;
+    temp = pop(s);
+    temp = temp->right;
+  }
+}
+void iterativeInorder(TreeNode root) {
+  /*
+  Loop start
+    -Loop while node
+      -- push node in stack
+      -- move to feft child
+    - if stack is empty
+      -- stop
+    - else
+      -- pop from stack
+      -- move to right subtree
+  */
+  Stack *s = createStack();
+  TreeNode temp = root;
+  while (true) {
+    while (temp) {
+      push(s, temp);
+      temp = temp->left;
+    }
+    if (isStackEmpty(s))
+      return;
+    temp = pop(s);
+    printf("%d", temp->data);
+    temp = temp->right;
+  }
+}
+void iterativePostorder(){
+
+}
+
+
 int main() {
   /*
         1
@@ -75,16 +135,26 @@ int main() {
   TreeNode root = createTree(arr, 7);
   printf("\nPreorder : ");
   printPreorder(root);
+  printf("\nIterative Preorder : ");
+  iterativePreorder(root);
+
   printf("\nPostorder : ");
   printPostorder(root);
+
   printf("\nInorder : ");
   printInorder(root);
+  printf("\nIteravive Inorder : ");
+  iterativeInorder(root);
+
   printf("\nConverse Preorder : ");
   printConversePreorder(root);
+
   printf("\nConverse Postorder : ");
   printConversePostorder(root);
+
   printf("\nConverse Inorder : ");
   printConverseInorder(root);
+
   printf("\nLevelorder : ");
   printLevelorder(root);
   printf("\n");
