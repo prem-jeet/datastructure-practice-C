@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 TreeNode createNode(int data) {
   TreeNode temp = calloc(1, sizeof(struct treenode));
   temp->data = data;
+  temp->left = NULL;
+  temp->right = NULL;
   return temp;
 }
 
