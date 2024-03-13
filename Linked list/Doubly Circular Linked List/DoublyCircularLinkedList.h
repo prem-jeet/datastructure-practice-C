@@ -1,3 +1,5 @@
+#ifndef CIRCULARDOUBLYLL
+#define CIRCULARDOUBLYLL
 #include <stdbool.h>
 typedef struct DLLNode {
   void *data;
@@ -39,3 +41,4 @@ void printInt(void *);
 void printFloat(void *);
 void printChar(void *);
 void printStr(void *);
+#endif
