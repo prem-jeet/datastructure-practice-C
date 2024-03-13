@@ -1,18 +1,14 @@
-#include<stdio.h>
-#include<stdbool.h>
-#include<stdlib.h>
+#include "../Linked list/Doubly Circular Linked List/DoublyCircularLinkedList.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct {
-    void **stack;
-    int top;
-    int size;
-}Stack;
+  CDLL *stack;
+} Stack;
 
 bool isStackEmpty(Stack *);
-bool isStackFull(Stack *);
 bool push(Stack *, void *);
-void* pop(Stack *);
-void* peek(Stack *);
-Stack *createStack(int);
-
-
+void *pop(Stack *);
+void *peek(Stack *);
+Stack *createStack();

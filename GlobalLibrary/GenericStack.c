@@ -1,65 +1,42 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
 #include "GenericStack.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-// typedef struct {
-//     void **stack;
-//     int top;
-//     int size;
-// }Stack;
+bool isStackEmpty(Stack *s) { return s->stack->head == NULL; }
 
-bool isStackEmpty(Stack *s)
-{
-    return s->top == -1;
-}
-
-bool isStackFull(Stack *s)
-{
-    return s->top == s->size - 1;
-}
-
-bool push(Stack *s, void *d)
-{
-    if (isStackFull(s))
-    {
-        printf("\nStack is full\n");
-        return false;
-    }
-    s->stack[++s->top] = d;
+bool push(Stack *s, void *data) {
+  if (s && data && s->stack) {
+    insertFront(s->stack, data);
     return true;
+  }
+  return false;
 }
 
-void *pop(Stack *s)
-{
-    if (isStackEmpty(s))
-    {
-        printf("\nStack is empty\n");
-        return NULL;
-    }
-    return s->stack[s->top--];
+void *pop(Stack *s) {
+  if (isStackEmpty(s)) {
+    printf("\nStack is empty\n");
+    return NULL;
+  }
+  DLLNode *temp = createDLLNode(getFront(s->stack));
+  deleteFront(s->stack);
+  return temp->data;
 }
 
-void *peek(Stack *s)
-{
-    if (isStackEmpty(s))
-    {
-        printf("\nStack is empty\n");
-        return NULL;
-    }
-    return s->stack[s->top];
+void *peek(Stack *s) {
+  if (isStackEmpty(s)) {
+    printf("\nStack is empty\n");
+    return NULL;
+  }
+  return getRear(s->stack)->data;
 }
 
-Stack *createStack(int size)
-{
-    Stack *s = malloc(1 * sizeof(Stack));
-    s->stack = calloc(size, sizeof(void *));
-    if (!s || !s->stack)
-    {
-        printf("\nMemory allocation fail\n");
-        return NULL;
-    }
-    s->top = -1;
-    s->size = size;
-    return s;
+Stack *createStack() {
+  Stack *s = malloc(1 * sizeof(Stack));
+  s->stack = createCDLL();
+  if (!s || !s->stack) {
+    printf("\nMemory allocation fail\n");
+    return NULL;
+  }
+  return s;
 }
