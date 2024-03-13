@@ -118,10 +118,7 @@ void iterativeInorder(TreeNode root) {
     temp = temp->right;
   }
 }
-void iterativePostorder(){
-
-}
-
+void iterativePostorder() {}
 
 int main() {
   /*
