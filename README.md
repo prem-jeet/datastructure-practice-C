@@ -29,7 +29,15 @@
 - [ ] How do you find the third node from the end in a singly linked list? 
 
 ## Tree
-- [x] Traversals (Preorder[CLR], Postorder[LRC], Inorder[LCR], Converse Preorder[CRL], Converse Inorder[RCL], Converse Postorder[RLC])
+- Traversals 
+    - [x] Preorder[CLR] (Iterative and recursive)
+    - [x] Postorder[LRC] (Iterative and recursive)
+    - [x] Inorder[LCR] (Iterative and recursive)
+    - [x] Converse Preorder[CRL]
+    - [x] Converse Inorder[RCL]
+    - [x] Converse Postorder[RLC]
+    - [x] Level order
+    - [ ] Zig zag
 - Recursive algorithms
   - [ ] count number of leafs
   - [ ] countnumber of internal nodes
