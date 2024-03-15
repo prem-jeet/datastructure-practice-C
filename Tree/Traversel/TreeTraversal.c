@@ -118,7 +118,29 @@ void iterativeInorder(TreeNode root) {
     temp = temp->right;
   }
 }
-void iterativePostorder() {}
+void iterativePostorder(TreeNode root) {
+  /* Using two stack
+
+  */
+  if (!root)
+    return;
+  Stack *s = createStack();
+  Stack *postorderReverse = createStack();
+  push(s, root);
+  while (!isStackEmpty(s)) {
+    TreeNode temp = pop(s);
+    if (temp->left)
+      push(s, temp->left);
+    if (temp->right)
+      push(s, temp->right);
+    push(postorderReverse, temp);
+  }
+
+  while (!isStackEmpty(postorderReverse)) {
+    TreeNode temp = pop(postorderReverse);
+    printf("%d", temp->data);
+  }
+}
 
 int main() {
   /*
@@ -137,6 +159,8 @@ int main() {
 
   printf("\nPostorder : ");
   printPostorder(root);
+  printf("\nIterative Postorder : ");
+  iterativePostorder(root);
 
   printf("\nInorder : ");
   printInorder(root);
