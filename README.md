@@ -29,4 +29,11 @@
 - [ ] How do you find the third node from the end in a singly linked list? 
 
 ## Tree
-- [ ] Traversals (Preorder[CLR], Postorder[LRC], Inorder[LCR], Converse Preorder[CRL], Converse Inorder[RCL], Converse Postorder[RLC])
+- [x] Traversals (Preorder[CLR], Postorder[LRC], Inorder[LCR], Converse Preorder[CRL], Converse Inorder[RCL], Converse Postorder[RLC])
+- Recursive algorithms
+-- [ ] count number of leafs
+-- [ ] countnumber of internal nodes
+-- [ ] count number of nodes
+-- [ ] height of tree
+-- [ ] count number of full nodes (nodes with both left and right child)
+-- [ ] count number of half nodes (nodes with only one child)
