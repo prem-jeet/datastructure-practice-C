@@ -120,7 +120,10 @@ void iterativeInorder(TreeNode root) {
 }
 void iterativePostorder(TreeNode root) {
   /* Using two stack
-
+    * stack one to keep track of node
+    * stack two to store visited noded, 
+    the second stack when printed at last
+    while poppoing prints the postorder,
   */
   if (!root)
     return;
