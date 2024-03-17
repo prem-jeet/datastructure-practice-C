@@ -121,7 +121,7 @@ void iterativeInorder(TreeNode root) {
 void iterativePostorder(TreeNode root) {
   /* Using two stack
     * stack one to keep track of node
-    * stack two to store visited noded, 
+    * stack two to store visited noded,
     the second stack when printed at last
     while poppoing prints the postorder,
   */
@@ -145,6 +145,32 @@ void iterativePostorder(TreeNode root) {
   }
 }
 
+void zigzagTraversal(TreeNode root) {
+  if (!root)
+    return;
+  Stack *s = createStack();
+  Queue q = createQueue();
+  bool rev = false;
+  push(s, root);
+  while (!(isStackEmpty(s) && isEmpty(q))) {
+    while (!isEmpty(q)) {
+      TreeNode currNode = dequeue(q);
+      printf("%d", currNode->data);
+      if (rev) {
+        push(s, currNode->right);
+        push(s, currNode->left);
+      } else {
+        push(s, currNode->left);
+        push(s, currNode->right);
+      }
+    }
+    while (!isStackEmpty(s)) {
+      TreeNode temp = pop(s);
+      enqueue(q, temp);
+    }
+    rev = !rev;
+  }
+}
 int main() {
   /*
         1
@@ -181,6 +207,9 @@ int main() {
 
   printf("\nLevelorder : ");
   printLevelorder(root);
+
+  printf("\nZigzag Levelorder : ");
+  zigzagTraversal(root);
   printf("\n");
   return 1;
 }
