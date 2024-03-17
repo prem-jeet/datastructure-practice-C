@@ -37,7 +37,7 @@
     - [x] Converse Inorder[RCL]
     - [x] Converse Postorder[RLC]
     - [x] Level order
-    - [ ] Zig zag
+    - [x] Zig zag Level order
 - Recursive algorithms
   - [ ] count number of leafs
   - [ ] countnumber of internal nodes
