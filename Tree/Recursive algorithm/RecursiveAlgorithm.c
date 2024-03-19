@@ -27,8 +27,8 @@ int main() {
   printf("Number of leaf nodes (Iterative) : %d\n", countLeafsIterative(root));
   printf("Number of internal nodes (Recursive) : %d\n",
          countInternalNodesRecursive(root));
-  //   printf("Number of internal nodes (Iterative) : %d\n",
-  //   countLeafsIterative(root));
+  printf("Number of internal nodes (Iterative) : %d\n",
+         countInternalNodesIterative(root));
 
   return 1;
 }
@@ -46,6 +46,7 @@ int countLeafsIterative(TreeNode root) {
   int count = 0;
   Queue q = createQueue();
   enqueue(q, root);
+  //   BFS
   while (!isEmpty(q)) {
     TreeNode curr = dequeue(q);
     if (!(curr->left && curr->right))
@@ -67,4 +68,20 @@ int countInternalNodesRecursive(TreeNode root) {
   return countInternalNodesRecursive(root->left) +
          countInternalNodesRecursive(root->right) + 1;
 }
-int countInternalNodesIterative(TreeNode root) {}
+int countInternalNodesIterative(TreeNode root) {
+  if (!root)
+    return 0;
+  Queue q = createQueue();
+  enqueue(q, root);
+  int count = 0;
+  while (!isEmpty(q)) {
+    TreeNode temp = dequeue(q);
+    if (temp->left || temp->right)
+      count++;
+    if (temp->left)
+      enqueue(q, temp->left);
+    if (temp->right)
+      enqueue(q, temp->right);
+  }
+  return count;
+}
