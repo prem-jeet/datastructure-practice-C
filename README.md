@@ -39,7 +39,7 @@
     - [x] Level order
     - [x] Zig zag Level order
 - Recursive algorithms
-  - [ ] count number of leafs
+  - [x] count number of leafs
   - [ ] countnumber of internal nodes
   - [ ] count number of nodes
   - [ ] height of tree
