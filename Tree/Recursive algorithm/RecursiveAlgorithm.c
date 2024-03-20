@@ -11,6 +11,9 @@ int countLeafsRecursive(TreeNode);
 int countLeafsIterative(TreeNode);
 int countInternalNodesRecursive(TreeNode);
 int countInternalNodesIterative(TreeNode);
+int countNodesRecursive(TreeNode);
+int countNodesIterative(TreeNode);
+
 /* Tree structure
     1
  /    \
@@ -29,6 +32,8 @@ int main() {
          countInternalNodesRecursive(root));
   printf("Number of internal nodes (Iterative) : %d\n",
          countInternalNodesIterative(root));
+  printf("Number of nodes (Recursive) : %d\n", countNodesRecursive(root));
+  printf("Number of nodes (Iterative) : %d\n", countNodesIterative(root));
 
   return 1;
 }
@@ -84,4 +89,28 @@ int countInternalNodesIterative(TreeNode root) {
       enqueue(q, temp->right);
   }
   return count;
+}
+
+int countNodesRecursive(TreeNode root) {
+  if (!root)
+    return 0;
+  return countNodesRecursive(root->left) + countNodesRecursive(root->right) + 1;
+}
+int countNodesIterative(TreeNode root) {
+  if (!root)
+    return 0;
+  Stack *s = createStack();
+  int count = 0;
+  TreeNode curr = root;
+  while (true) {
+    while (curr) {
+      push(s, curr);
+      curr = curr->left;
+    }
+    if (isStackEmpty(s))
+      return count;
+    curr = pop(s);
+    count++;
+    curr = curr->right;
+  }
 }
