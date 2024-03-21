@@ -29,6 +29,7 @@
 - [ ] How do you find the third node from the end in a singly linked list? 
 
 ## Tree
+- [ ] Morris Traversal Technique (Useful to flaten a tree, traversal in o(1) space) 
 - Traversals 
     - [x] Preorder[CLR] (Iterative and recursive)
     - [x] Postorder[LRC] (Iterative and recursive)
