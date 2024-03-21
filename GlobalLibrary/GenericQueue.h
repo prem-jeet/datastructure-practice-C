@@ -3,7 +3,7 @@
 
 struct queue{
     CDLL *queue;
-    
+    int size;
 };
 typedef struct queue* Queue;
 

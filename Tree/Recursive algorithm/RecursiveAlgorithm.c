@@ -14,6 +14,7 @@ int countInternalNodesIterative(TreeNode);
 int countNodesRecursive(TreeNode);
 int countNodesIterative(TreeNode);
 int treeHeight(TreeNode);
+int treeHeightIterative(TreeNode);
 /* Tree structure
     1
  /    \
@@ -35,6 +36,7 @@ int main() {
   printf("Number of nodes (Recursive) : %d\n", countNodesRecursive(root));
   printf("Number of nodes (Iterative) : %d\n", countNodesIterative(root));
   printf("Tree height : %d\n", treeHeight(root));
+  printf("Tree height (Iterative) : %d\n", treeHeightIterative(root));
   return 1;
 }
 
@@ -121,4 +123,23 @@ int treeHeight(TreeNode root) {
   int leftHeight = treeHeight(root->left);
   int rightHeight = treeHeight(root->right);
   return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+}
+int treeHeightIterative(TreeNode root) {
+  if (!root)
+    return 0;
+  Queue q = createQueue();
+  enqueue(q, root);
+  int height = -1;
+  while (!isEmpty(q)) {
+    height++;
+    int levelNodeCount = q->size;
+    while (levelNodeCount--) {
+      TreeNode temp = dequeue(q);
+      if (temp->right)
+        enqueue(q, temp->right);
+      if (temp->left)
+        enqueue(q, temp->left);
+    }
+  }
+  return height;
 }
