@@ -41,7 +41,7 @@
 - Recursive algorithms
   - [x] count number of leafs
   - [x] count number of internal nodes
-  - [ ] count number of nodes
+  - [x] count number of nodes
   - [ ] height of tree
   - [ ] count number of full nodes (nodes with both left and right child)
   - [ ] count number of half nodes (nodes with only one child)
