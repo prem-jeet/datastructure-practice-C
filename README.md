@@ -44,5 +44,7 @@
   - [x] count number of internal nodes
   - [x] count number of nodes
   - [x] height of tree
-  - [ ] count number of full nodes (nodes with both left and right child)
-  - [ ] count number of half nodes (nodes with only one child)
+  - [x] count number of full nodes (nodes with both left and right child)
+    > Do bfs and increment count for each node having both left and right children
+  - [x] count number of half nodes (nodes with only one child)
+    > Do bfs and increment count for nodes having either left or right node but not both
