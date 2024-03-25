@@ -28,6 +28,22 @@
 - [ ] How do you check if a given linked list contains a cycle? How do you find the starting node of the cycle?
 - [ ] How do you find the third node from the end in a singly linked list? 
 
+## Sorting algorithms
+ - [ ] Bubble sort
+ - [ ] Insertion sort
+ - [ ] Selection sort
+ - [ ] Merge sort
+ - [ ] Quick sort
+ - [ ] Heap sort
+ - [ ] Counting sort
+
+## Search algorithms
+- [ ] Binary search
+- [ ] Ternary search
+- [ ] Exponential search
+- [ ] Interpolation search
+- [ ] Jump search
+
 ## Tree
 - [ ] Morris Traversal Technique (Useful to flaten a tree, traversal in o(1) space) 
 - Traversals 
