@@ -1,6 +1,8 @@
 #include "HelpreDS.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+/* Circular Doubly linked list code Start */
 DLLNode createDLLNode(void *data) {
   DLLNode n = malloc(1 * sizeof(struct DoublyLinkedListNode));
   if (!n)
@@ -70,7 +72,6 @@ void cdllInsertAt(CDLL cdll, void *data, int index) {
   temp->next->prev = newNode;
   temp->next = newNode;
 }
-
 void *cdllGetFromIndex(CDLL cdll, int index) {
   if (!(cdll && cdll->head))
     return NULL;
@@ -84,7 +85,6 @@ void *cdllGetFront(CDLL cdll) { return cdllGetFromIndex(cdll, 0); }
 void *cdllGetRear(CDLL cdll) {
   return cdllGetFromIndex(cdll, cdll->length - 1);
 }
-
 void cdllDeleteFromIndex(CDLL cdll, int index) {
   if (!(cdll && cdll->head) || index < 0 || index >= cdll->length)
     return;
@@ -124,40 +124,58 @@ void cdllPrint(CDLL cdll) {
   } while (n != cdll->head);
   printf("\nsize is :%d\n", cdll->length);
 }
+/*Circular doubly linked list code end*/
 
+/*Stack code start*/
+Stack createStack() {
+  Stack s = malloc(1 * sizeof(struct _Stack));
+  if (!s)
+    return NULL;
+  s->stack = createCircularDoublyLinkedList();
+  if (!s->stack)
+    return NULL;
+  s->length = 0;
+  return s;
+}
+bool isStackEmpty(Stack s) {
+  if (!(s && s->stack))
+    return true;
+  return !s->stack->head;
+}
+void stackPush(Stack s, void *data) {
+  if (!(s && s->stack && data))
+    return;
+  cdllInsertRear(s->stack, data);
+  s->length = s->stack->length;
+}
+void *stackPop(Stack s) {
+  if (!(s && s->stack))
+    return NULL;
+  if (isStackEmpty(s))
+    return NULL;
+  DLLNode temp = createDLLNode(cdllGetRear(s->stack));
+  if (!temp)
+    return NULL;
+  cdllDeleteRear(s->stack);
+  s->length = s->stack->length;
+  return temp->data;
+}
+void *stackTop(Stack s) {
+  if (!(s && s->stack))
+    return NULL;
+  if (isStackEmpty(s))
+    return NULL;
+  return cdllGetRear(s->stack);
+}
+/*Stack code ends*/ 
 int main() {
-  CDLL cdll = createCircularDoublyLinkedList();
-  for (int i = 1; i < 4; i++) {
-    int *temp = malloc(1 * sizeof(int));
-    *temp = i;
-    if (i % 2)
-      cdllInsertFront(cdll, temp);
-    else
-      cdllInsertRear(cdll, temp);
+  Stack s = createStack();
+  for (int i = 0; i < 4; i++) {
+    int *a = malloc(sizeof(int));
+    *a = i;
+    stackPush(s, a);
   }
-  int a = 11;
-  cdllInsertAt(cdll, &a, 0);
-  int b = 12;
-  cdllInsertAt(cdll, &b, cdll->length);
-  int c = 13;
-  cdllInsertAt(cdll, &c, 1);
-  int d = 14;
-  cdllInsertAt(cdll, &d, 3);
-  int e = 15;
-  cdllInsertAt(cdll, &e, 6);
-  int f = 99;
-  cdllInsertAt(cdll, &f, 100);
-
-  cdllPrint(cdll);
-
-  // while (cdll->length) {
-
-  cdllDeleteFront(cdll);
-
-  cdllPrint(cdll);
-  cdllDeleteRear(cdll);
-  cdllPrint(cdll);
-  // }
-
+  cdllPrint(s->stack);
+  printf("Top of the stack is %d\n", *(int *)stackTop(s));
   return 0;
 }
