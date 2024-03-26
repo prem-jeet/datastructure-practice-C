@@ -125,51 +125,6 @@ void cdllPrint(CDLL cdll) {
   printf("\nsize is :%d\n", cdll->length);
 }
 /*Circular doubly linked list code end*/
-<<<<<<<<< Temporary merge branch 1
-
-/*Stack code start*/
-Stack createStack() {
-  Stack s = malloc(1 * sizeof(struct _Stack));
-  if (!s)
-    return NULL;
-  s->stack = createCircularDoublyLinkedList();
-  if (!s->stack)
-    return NULL;
-  s->length = 0;
-  return s;
-}
-bool isStackEmpty(Stack s) {
-  if (!(s && s->stack))
-    return true;
-  return !s->stack->head;
-}
-void stackPush(Stack s, void *data) {
-  if (!(s && s->stack && data))
-    return;
-  cdllInsertRear(s->stack, data);
-  s->length = s->stack->length;
-}
-void *stackPop(Stack s) {
-  if (!(s && s->stack))
-    return NULL;
-  if (isStackEmpty(s))
-    return NULL;
-  DLLNode temp = createDLLNode(cdllGetRear(s->stack));
-  if (!temp)
-    return NULL;
-  cdllDeleteRear(s->stack);
-  s->length = s->stack->length;
-  return temp->data;
-}
-void *stackTop(Stack s) {
-  if (!(s && s->stack))
-    return NULL;
-  if (isStackEmpty(s))
-    return NULL;
-  return cdllGetRear(s->stack);
-}
-=========
->>>>>>>>> Temporary merge branch 2
 
 /*Stack code start*/
 Stack createStack() {
@@ -254,17 +209,9 @@ void *queueFront(Queue q) {
   return cdllGetFront(q->queue);
 }
 /*Queue code ends*/
+
 int main() {
-<<<<<<<<< Temporary merge branch 1
-  Stack s = createStack();
-  for (int i = 0; i < 4; i++) {
-    int *a = malloc(sizeof(int));
-    *a = i;
-    stackPush(s, a);
-  }
-  cdllPrint(s->stack);
-  printf("Top of the stack is %d\n", *(int *)stackTop(s));
-=========
+
   Queue s = createQueue();
   for (int i = 0; i < 1; i++) {
     int *a = malloc(sizeof(int));
@@ -276,6 +223,5 @@ int main() {
   if (queueFront(s) != NULL) {
     printf("Front of queue  is %d\n", *(int *)queueFront(s));
   }
->>>>>>>>> Temporary merge branch 2
   return 0;
 }
