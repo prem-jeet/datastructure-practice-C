@@ -13,9 +13,14 @@ struct CircularDoublyLinkedList {
 };
 typedef struct CircularDoublyLinkedList *CDLL;
 
-struct _Stack{
+struct _Stack {
   CDLL stack;
   int length;
 };
-typedef struct _Stack* Stack;
+typedef struct _Stack *Stack;
+struct _Queue {
+  CDLL queue;
+  int length;
+};
+typedef struct _Queue *Queue;
 #endif

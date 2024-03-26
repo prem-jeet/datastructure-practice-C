@@ -167,15 +167,59 @@ void *stackTop(Stack s) {
     return NULL;
   return cdllGetRear(s->stack);
 }
-/*Stack code ends*/ 
+/*Stack code ends*/
+
+/*Queue code start*/
+Queue createQueue() {
+  Queue q = malloc(sizeof(struct _Queue));
+  if (!q)
+    return NULL;
+  q->queue = createCircularDoublyLinkedList();
+  if (!q->queue)
+    return NULL;
+  q->length = 0;
+  return q;
+}
+bool isQueueEmpty(Queue q) {
+  if (!(q && q->queue))
+    return true;
+  return !q->queue->head;
+}
+void enqueue(Queue q, void *data) {
+  if (!(q && q->queue && data))
+    return;
+  cdllInsertRear(q->queue, data);
+  q->length = q->queue->length;
+}
+void *dequeue(Queue q) {
+  if (!(q && q->queue))
+    return NULL;
+  DLLNode temp = createDLLNode(cdllGetFront(q->queue));
+  if (temp == NULL)
+    return NULL;
+  cdllDeleteFront(q->queue);
+  q->length = q->queue->length;
+  return temp->data;
+}
+void *queueFront(Queue q) {
+  if (!(q && q->queue))
+    return NULL;
+  if (isQueueEmpty(q))
+    return NULL;
+  return cdllGetFront(q->queue);
+}
+/*Queue code ends*/
 int main() {
-  Stack s = createStack();
-  for (int i = 0; i < 4; i++) {
+  Queue s = createQueue();
+  for (int i = 0; i < 1; i++) {
     int *a = malloc(sizeof(int));
     *a = i;
-    stackPush(s, a);
+    enqueue(s, a);
   }
-  cdllPrint(s->stack);
-  printf("Top of the stack is %d\n", *(int *)stackTop(s));
+  cdllPrint(s->queue);
+  dequeue(s);
+  if (queueFront(s) != NULL) {
+    printf("Front of queue  is %d\n", *(int *)queueFront(s));
+  }
   return 0;
 }
