@@ -124,102 +124,40 @@ void cdllPrint(CDLL cdll) {
   } while (n != cdll->head);
   printf("\nsize is :%d\n", cdll->length);
 }
-/*Circular doubly linked list code end*/
 
-/*Stack code start*/
-Stack createStack() {
-  Stack s = malloc(1 * sizeof(struct _Stack));
-  if (!s)
-    return NULL;
-  s->stack = createCircularDoublyLinkedList();
-  if (!s->stack)
-    return NULL;
-  s->length = 0;
-  return s;
-}
-bool isStackEmpty(Stack s) {
-  if (!(s && s->stack))
-    return true;
-  return !s->stack->head;
-}
-void stackPush(Stack s, void *data) {
-  if (!(s && s->stack && data))
-    return;
-  cdllInsertRear(s->stack, data);
-  s->length = s->stack->length;
-}
-void *stackPop(Stack s) {
-  if (!(s && s->stack))
-    return NULL;
-  if (isStackEmpty(s))
-    return NULL;
-  DLLNode temp = createDLLNode(cdllGetRear(s->stack));
-  if (!temp)
-    return NULL;
-  cdllDeleteRear(s->stack);
-  s->length = s->stack->length;
-  return temp->data;
-}
-void *stackTop(Stack s) {
-  if (!(s && s->stack))
-    return NULL;
-  if (isStackEmpty(s))
-    return NULL;
-  return cdllGetRear(s->stack);
-}
-/*Stack code ends*/
-
-/*Queue code start*/
-Queue createQueue() {
-  Queue q = malloc(sizeof(struct _Queue));
-  if (!q)
-    return NULL;
-  q->queue = createCircularDoublyLinkedList();
-  if (!q->queue)
-    return NULL;
-  q->length = 0;
-  return q;
-}
-bool isQueueEmpty(Queue q) {
-  if (!(q && q->queue))
-    return true;
-  return !q->queue->head;
-}
-void enqueue(Queue q, void *data) {
-  if (!(q && q->queue && data))
-    return;
-  cdllInsertRear(q->queue, data);
-  q->length = q->queue->length;
-}
-void *dequeue(Queue q) {
-  if (!(q && q->queue))
-    return NULL;
-  DLLNode temp = createDLLNode(cdllGetFront(q->queue));
-  if (temp == NULL)
-    return NULL;
-  cdllDeleteFront(q->queue);
-  q->length = q->queue->length;
-  return temp->data;
-}
-void *queueFront(Queue q) {
-  if (!(q && q->queue))
-    return NULL;
-  if (isQueueEmpty(q))
-    return NULL;
-  return cdllGetFront(q->queue);
-}
-/*Queue code ends*/
 int main() {
-  Queue s = createQueue();
-  for (int i = 0; i < 1; i++) {
-    int *a = malloc(sizeof(int));
-    *a = i;
-    enqueue(s, a);
+  CDLL cdll = createCircularDoublyLinkedList();
+  for (int i = 1; i < 4; i++) {
+    int *temp = malloc(1 * sizeof(int));
+    *temp = i;
+    if (i % 2)
+      cdllInsertFront(cdll, temp);
+    else
+      cdllInsertRear(cdll, temp);
   }
-  cdllPrint(s->queue);
-  dequeue(s);
-  if (queueFront(s) != NULL) {
-    printf("Front of queue  is %d\n", *(int *)queueFront(s));
-  }
+  int a = 11;
+  cdllInsertAt(cdll, &a, 0);
+  int b = 12;
+  cdllInsertAt(cdll, &b, cdll->length);
+  int c = 13;
+  cdllInsertAt(cdll, &c, 1);
+  int d = 14;
+  cdllInsertAt(cdll, &d, 3);
+  int e = 15;
+  cdllInsertAt(cdll, &e, 6);
+  int f = 99;
+  cdllInsertAt(cdll, &f, 100);
+
+  cdllPrint(cdll);
+
+  // while (cdll->length) {
+
+  cdllDeleteFront(cdll);
+
+  cdllPrint(cdll);
+  cdllDeleteRear(cdll);
+  cdllPrint(cdll);
+  // }
+
   return 0;
 }
