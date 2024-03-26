@@ -260,25 +260,3 @@ void dequeInsertAt(Deque deque, void *data, int index) {
   deque->length = deque->deque->length;
 }
 /*doubly ended queue code ends*/
-
-int main() {
-
-  Deque q = createDoubleEndedQueue();
-
-  for (int i = 0; i < 10; i++) {
-    int *data = malloc(sizeof(int));
-    *data = i;
-    int mod = i % 3;
-    if (mod == 0) {
-      dequeAppendLeft(q, data);
-    }
-    if (mod == 1) {
-      dequeAppend(q, data);
-    }
-    if (mod == 2) {
-      dequeInsertAt(q, data, i-1);
-    }
-  }
-  cdllPrint(q->deque);
-  return 0;
-}
