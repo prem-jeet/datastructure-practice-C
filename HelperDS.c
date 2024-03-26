@@ -210,18 +210,75 @@ void *queueFront(Queue q) {
 }
 /*Queue code ends*/
 
+/*Doubly ended queue code starts*/
+Deque createDoubleEndedQueue() {
+  Deque deque = malloc(sizeof(struct _Deque));
+  if (!deque)
+    return NULL;
+  deque->deque = createCircularDoublyLinkedList();
+  if (!deque->deque)
+    return NULL;
+  deque->length += 0;
+  return deque;
+}
+void dequeAppend(Deque deque, void *data) {
+  if (!(deque && deque->deque && data))
+    return;
+  cdllInsertRear(deque->deque, data);
+  deque->length = deque->deque->length;
+}
+void dequeAppendLeft(Deque deque, void *data) {
+  if (!(deque && deque->deque && data))
+    return;
+  cdllInsertFront(deque->deque, data);
+  deque->length = deque->deque->length;
+}
+void *dequePop(Deque deque) {
+  if (!(deque && deque->deque))
+    return NULL;
+  DLLNode temp = createDLLNode(cdllGetRear(deque->deque));
+  if (!temp)
+    return NULL;
+  cdllDeleteRear(deque->deque);
+  deque->length = deque->deque->length;
+  return temp->data;
+}
+void *dequePopLeft(Deque deque) {
+  if (!(deque && deque->deque))
+    return NULL;
+  DLLNode temp = createDLLNode(cdllGetFront(deque->deque));
+  if (!temp)
+    return NULL;
+  cdllDeleteFront(deque->deque);
+  deque->length = deque->deque->length;
+  return temp->data;
+}
+void dequeInsertAt(Deque deque, void *data, int index) {
+  if (!(deque && deque->deque && data) || index < 0 || index >= deque->length)
+    return;
+  cdllInsertAt(deque->deque, data, index);
+  deque->length = deque->deque->length;
+}
+/*doubly ended queue code ends*/
+
 int main() {
 
-  Queue s = createQueue();
-  for (int i = 0; i < 1; i++) {
-    int *a = malloc(sizeof(int));
-    *a = i;
-    enqueue(s, a);
+  Deque q = createDoubleEndedQueue();
+
+  for (int i = 0; i < 10; i++) {
+    int *data = malloc(sizeof(int));
+    *data = i;
+    int mod = i % 3;
+    if (mod == 0) {
+      dequeAppendLeft(q, data);
+    }
+    if (mod == 1) {
+      dequeAppend(q, data);
+    }
+    if (mod == 2) {
+      dequeInsertAt(q, data, i-1);
+    }
   }
-  cdllPrint(s->queue);
-  dequeue(s);
-  if (queueFront(s) != NULL) {
-    printf("Front of queue  is %d\n", *(int *)queueFront(s));
-  }
+  cdllPrint(q->deque);
   return 0;
 }

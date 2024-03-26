@@ -23,4 +23,10 @@ struct _Queue {
   int length;
 };
 typedef struct _Queue *Queue;
+
+struct _Deque {
+  CDLL deque;
+  int length;
+};
+typedef struct _Deque *Deque;
 #endif
